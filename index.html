@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Telemedicine Daily Performance &amp; Reporting Portal
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+  </script>
+ </head>
+ <body>
+  <div class="tricolor-top">
+  </div>
+  <header class="app-header">
+   <div class="brand-wrap">
+    <div class="logos">
+     <div class="logo-orb">
+      <img src="National Emblem.png"/>
+     </div>
+     <div class="logo-orb">
+      <img src="NHM logo.png"/>
+     </div>
+    </div>
+    <div>
+     <div class="eyebrow">
+      GOVERNMENT OF WEST BENGAL &bull; HEALTH &amp; FAMILY WELFARE DEPARTMENT
+     </div>
+     <h1>
+      Daily Telemedicine Performance Report
+     </h1>
+     <p>
+      National Health Mission &bull; Telemedicine Monitoring Dashboard
+     </p>
+     
+    </div>
+   </div>
+   <div class="live-box">
+    <div class="live-pill">
+     <span class="live-dot">
+     </span>
+     <span>
+      LIVE SYSTEM
+     </span>
+    </div>
+    <div class="live-date-row">
+     <span>
+      ▦
+     </span>
+     <strong id="liveDate">
+      --
+     </strong>
+    </div>
+    <div class="live-clock-row">
+     <span>
+      ◷
+     </span>
+     <b id="liveTime">
+      --:--:--
+     </b>
+    </div>
+    <div class="live-zone">
+     <span class="zone-line saffron-line">
+     </span>
+     <small>
+      IST
+     </small>
+     <i>
+     </i>
+     <small>
+      INDIA
+     </small>
+     <span class="zone-line green-line">
+     </span>
+    </div>
+   </div>
+  </header>
+  <main class="page">
+   <section class="upload-panel glass-panel">
+    <div class="upload-card saffron">
+     <div class="step">
+      01
+     </div>
+     <div class="upload-description">
+      <div class="upload-icon">
+       📊
+      </div>
+      <div>
+       <h2>
+        Received Consultation Report
+       </h2>
+       <p>
+        Daily HWC Consultation Received Summary
+       </p>
+      </div>
+     </div>
+     <div class="upload-control">
+      <label for="receivedFile">
+       Choose Excel File
+      </label>
+      <input accept=".xlsx,.xlsm,.xls" id="receivedFile" type="file"/>
+      <div id="receivedName">
+       No file selected
+      </div>
+     </div>
+    </div>
+    <div class="upload-card green">
+     <div class="step">
+      02
+     </div>
+     <div class="upload-description">
+      <div class="upload-icon">
+       📥
+      </div>
+      <div>
+       <h2>
+        Referred Consultation Report
+       </h2>
+       <p>
+        Daily HWC Consultation Referred Summary
+       </p>
+      </div>
+     </div>
+     <div class="upload-control">
+      <label for="referredFile">
+       Choose Excel File
+      </label>
+      <input accept=".xlsx,.xlsm,.xls" id="referredFile" type="file"/>
+      <div id="referredName">
+       No file selected
+      </div>
+     </div>
+    </div>
+    <div class="actions">
+     <label>
+      REPORT DATE
+      <input id="reportDate" type="date"/>
+     </label>
+     <div class="action-row">
+      <button disabled="" id="processBtn">
+       ⚡ PROCESS REPORTS
+      </button>
+      <button class="reset" id="resetBtn">
+       &orarr; RESET
+      </button>
+     </div>
+     <button disabled="" id="exportBtn">
+      📊 EXPORT EXCEL
+     </button>
+    </div>
+   </section>
+   <div class="status" id="status">
+    <strong>Upload both Received and Referred Summary files.</strong>
+   </div>
+   <section class="dashboard glass-panel main-kpis">
+    <div class="kpi kpi-saffron">
+     <div class="kpi-icon">
+      🏥
+     </div>
+     <span>
+      PHC CONSULTATIONS
+     </span>
+     <b id="kpiPhc">
+      &mdash;
+     </b>
+     <small id="kpiPhcSub">
+      % of consolidated consultations
+     </small>
+    </div>
+    <div class="kpi kpi-white">
+     <div class="kpi-icon">
+      &checkmark;
+     </div>
+     <span>
+      ACTIVE AAM-PHCS
+     </span>
+     <b id="kpiActive">
+      &mdash;
+     </b>
+     <small id="kpiActiveSub">
+      Deficit out of 781 operational PHCs
+     </small>
+    </div>
+    <div class="kpi kpi-green">
+     <div class="kpi-icon">
+      🩺
+     </div>
+     <span>
+      SPECIALIST CONSULTATIONS
+     </span>
+     <b id="kpiSb">
+      &mdash;
+     </b>
+     <small id="kpiSbSub">
+      % of consolidated consultations
+     </small>
+    </div>
+    <div class="kpi kpi-white">
+     <div class="kpi-icon">
+      🏨
+     </div>
+     <span>
+      MCH CONSULTATIONS
+     </span>
+     <b id="kpiMch">
+      &mdash;
+     </b>
+     <small id="kpiMchSub">
+      % of consolidated consultations
+     </small>
+    </div>
+    <div class="kpi kpi-navy">
+     <div class="kpi-icon">
+      🇮🇳
+     </div>
+     <span>
+      WEST BENGAL CONSULTATIONS
+     </span>
+     <b id="kpiWb">
+      &mdash;
+     </b>
+     <small id="kpiWbSub">
+      Consolidated daily consultations
+     </small>
+    </div>
+   </section>
+   <nav class="tabs glass-panel">
+    <button class="active" data-tab="phc">
+     <span>
+      🏥
+     </span>
+     AAM-PHC PERFORMANCE
+    </button>
+    <button data-tab="sb">
+     <span>
+      🩺
+     </span>
+     SB DOCTORS REPORT
+    </button>
+    <button data-tab="mch">
+     <span>
+      🏨
+     </span>
+     27 MCH PERFORMANCE
+    </button>
+    <button data-tab="summary">
+     <span>
+      📊
+     </span>
+     STATE REPORT
+    </button>
+   </nav>
+   <div id="reportArea">
+   </div>
+  </main>
+  <footer>
+   <div class="footer-inner">
+    <b>
+     Health &amp; Family Welfare Department, Government of West Bengal
+    </b>
+    <span>
+     Telemedicine Cell &bull; Swasthya Bhawan, Kolkata &bull; National Health Mission
+    </span>
+   </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js">
+  </script>
+  <script src="app.js">
+  </script>
+ </body>
+</html>
