@@ -1718,3 +1718,249 @@ footer:after {
 .report-canvas.export-large .summary-table .note td {
   font-size: 19px !important;
 }
+
+
+/* SB Report KPI refinement: professional icon-based consultation breakup */
+.sb-report-kpis {
+  grid-template-columns:1fr 1.25fr 1.25fr 1.35fr!important;
+  align-items:stretch;
+}
+.sb-report-kpis .report-kpi {
+  min-height:118px;
+  padding:14px 14px 12px 58px;
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(239,246,251,.9));
+  box-shadow:0 8px 20px rgba(23,58,99,.08), inset 0 1px rgba(255,255,255,.8);
+}
+.sb-report-kpis .report-kpi.green { border:1.5px solid #138808; }
+.sb-report-kpis .report-kpi.saffron { border:1.5px solid #ff9933; }
+.sb-report-kpis .report-kpi.blue-kpi { border:1.5px solid #315f9e; }
+.sb-report-kpis .report-kpi-icon {
+  left:14px;
+  top:15px;
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  font-size:21px;
+  font-weight:950;
+  color:#173a63;
+  background:linear-gradient(135deg,#eef5fa,#e6eef6);
+  box-shadow:0 4px 10px rgba(23,58,99,.08);
+}
+.sb-report-kpis .green .report-kpi-icon { color:#138808; background:#eaf7ec; }
+.sb-report-kpis .saffron .report-kpi-icon { color:#e86f00; background:#fff1e5; }
+.sb-report-kpis .blue-kpi .report-kpi-icon { color:#1859b5; background:#eaf1fb; }
+.sb-report-kpis .report-kpi span,
+.sb-report-kpi-breakup span {
+  font-size:12px!important;
+  line-height:1.2;
+}
+.sb-report-kpis .report-kpi b {
+  font-size:27px!important;
+  margin-top:8px;
+  color:#173a63;
+  line-height:1.1;
+}
+.sb-report-kpis .report-kpi.green b { color:#138808; }
+.sb-report-kpis .report-kpi.saffron b { color:#e86f00; }
+.sb-report-kpis .report-kpi em {
+  font-size:12px!important;
+  color:#52677e;
+  margin-top:5px;
+}
+.report-kpi-breakup {
+  min-height:118px;
+  border-radius:16px;
+  padding:10px 10px 9px 10px;
+  border:1.5px solid #138808;
+  background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(239,249,241,.92));
+  box-shadow:0 8px 20px rgba(23,58,99,.08), inset 0 1px rgba(255,255,255,.8);
+  position:relative;
+  overflow:hidden;
+}
+.report-kpi-breakup-title {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:7px;
+}
+.report-kpi-breakup-title .report-kpi-icon {
+  position:static;
+  width:28px;
+  height:28px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  font-size:17px;
+  font-weight:950;
+  color:#138808;
+  background:#eaf7ec;
+}
+.report-kpi-breakup-title span {
+  color:#52677e;
+  font-weight:950;
+  letter-spacing:.45px;
+}
+.breakup-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+.breakup-item {
+  min-height:39px;
+  display:grid;
+  grid-template-columns:30px 1fr auto;
+  align-items:center;
+  gap:6px;
+  padding:5px 7px;
+  border-radius:10px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(23,58,99,.07);
+  box-shadow:0 3px 9px rgba(23,58,99,.06);
+}
+.breakup-icon {
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  font-weight:950;
+}
+.breakup-item strong {
+  display:block;
+  font-size:15px;
+  line-height:1;
+  font-weight:950;
+}
+.breakup-item small {
+  display:block;
+  margin-top:2px;
+  font-size:8px;
+  color:#617386;
+  font-weight:800;
+}
+.breakup-item b {
+  font-size:19px;
+  line-height:1;
+  font-weight:950;
+}
+.breakup-high .breakup-icon { color:#138808; background:#e7f5e9; }
+.breakup-high strong,.breakup-high b { color:#138808; }
+.breakup-mid .breakup-icon { color:#1767c8; background:#eaf2fd; }
+.breakup-mid strong,.breakup-mid b { color:#1767c8; }
+.breakup-low .breakup-icon { color:#ef6c00; background:#fff0e2; }
+.breakup-low strong,.breakup-low b { color:#ef6c00; }
+.breakup-zero .breakup-icon { color:#6b1db7; background:#f1e8fb; }
+.breakup-zero strong,.breakup-zero b { color:#6b1db7; }
+.breakup-zero-total {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:6px;
+  padding:6px 9px;
+  border-radius:9px;
+  background:linear-gradient(90deg,#eef9f0,#f6fbf7);
+  color:#173a63;
+  font-size:11px;
+}
+.breakup-zero-total span {
+  width:20px;
+  height:20px;
+  display:grid;
+  place-items:center;
+  border-radius:6px;
+  color:#138808;
+  background:#e4f4e7;
+  font-size:13px;
+  font-weight:950;
+}
+.breakup-zero-total strong { font-size:11px; }
+
+/* Keep both SB doctor tables perfectly synchronized in height. */
+.sb-wrap .sb-table { align-self:stretch; }
+.sb-table-right {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.sb-table-right thead,
+.sb-table-right tfoot {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+}
+.sb-table-right tbody {
+  display:flex;
+  flex:1 1 auto;
+  min-height:0;
+  flex-direction:column;
+}
+.sb-table-right tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+  flex:1 1 0;
+  height:auto;
+}
+.sb-table-right tbody td {
+  height:100%;
+}
+
+@media(max-width:1100px) {
+  .sb-report-kpis { grid-template-columns:repeat(2,1fr)!important; }
+  .report-kpi-breakup { min-height:118px; }
+}
+@media(max-width:650px) {
+  .sb-report-kpis { grid-template-columns:1fr!important; }
+  .breakup-grid { grid-template-columns:1fr 1fr; }
+}
+
+/* Final SB table alignment fix: compact right-side rows and keep Total on one line. */
+.sb-table-right {
+  height:auto!important;
+  display:table!important;
+  table-layout:fixed!important;
+}
+.sb-table-right thead,
+.sb-table-right tbody,
+.sb-table-right tfoot {
+  display:table-row-group!important;
+  width:auto!important;
+}
+.sb-table-right thead { display:table-header-group!important; }
+.sb-table-right tfoot { display:table-footer-group!important; }
+.sb-table-right tbody tr {
+  display:table-row!important;
+  height:29px!important;
+  flex:none!important;
+}
+.sb-table-right tbody td {
+  height:29px!important;
+  padding:5px 6px!important;
+  line-height:1.15!important;
+  vertical-align:middle!important;
+}
+.sb-table-right .sb-total td[colspan="2"] {
+  white-space:nowrap!important;
+  width:auto!important;
+  min-width:52%!important;
+  word-break:keep-all!important;
+  overflow:visible!important;
+}
+.sb-table-right .sb-total td {
+  height:40px!important;
+  padding:7px 6px!important;
+  white-space:nowrap!important;
+}
+
+/* Preserve the same compact row sizing in high-quality PNG/PDF export. */
+.report-canvas.export-large .sb-table-right tbody tr,
+.report-canvas.export-large .sb-table-right tbody td {
+  height:29px!important;
+}
+.report-canvas.export-large .sb-table-right .sb-total td {
+  height:40px!important;
+  white-space:nowrap!important;
+}
