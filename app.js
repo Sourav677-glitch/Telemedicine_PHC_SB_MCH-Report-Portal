@@ -295,19 +295,13 @@ function mchZoneClass(x){
   return Number(x.deficit)<=1e-9?'row-good':Number(x.rank)<=10?'row-mid':'row-bad'
 }
 function reportKpis(items){
-  return `<div class="report-kpis ${items.length>4?'six':''}">${items.map(([icon,l,v,c=''])=>`<div class="report-kpi ${c}"><div class="report-kpi-icon">${
-    icon
-  }
-  </div><span>${
-    l
-  }
-  </span><b>${
-    v
-  }
-  </b></div>`).join('')}</div>`
+  return `<div class="report-kpis ${items.length>4?'six':''}">${items.map(([icon,l,v,c=''])=>{
+    const top3=/^TOP 3/i.test(String(l).trim());
+    return `<div class="report-kpi ${c}${top3?' top3-kpi':''}"><div class="report-kpi-icon">${icon}</div><span>${l}</span><b>${v}</b></div>`;
+  }).join('')}</div>`
 }
 function shell(t,b){
-  return `<div class="report-shell"><div class="report-toolbar"><button class="png" onclick="exportCurrentPNG()">🖼 EXPORT PNG</button><button class="pdf" onclick="exportCurrentPDF()">📄 EXPORT PDF</button></div><div class="report-canvas" id="reportCanvas"><div class="report-title"><span class="title-main">${t}</span><span class="date">${dateText()}</span><span class="time">5:00 PM</span></div>${b}<div class="report-meta"> Generated Succesfully • ${dateText()} • 5:00 PM</div></div></div>`
+  return `<div class="report-shell"><div class="report-toolbar"><button class="png" onclick="exportCurrentPNG()">🖼 EXPORT PNG</button><button class="pdf" onclick="exportCurrentPDF()">📄 EXPORT PDF</button></div><div class="report-canvas report-${active}" id="reportCanvas"><div class="report-title"><span class="title-main">${t}</span><span class="date">${dateText()}</span><span class="time">5:00 PM</span></div>${b}<div class="report-meta"> Generated Succesfully • ${dateText()} • 5:00 PM</div></div></div>`
 }
 function render(){
   const p=reports.phc,s=reports.sb,m=reports.mch;
@@ -412,83 +406,134 @@ function renderMch(){
     }
     </td>`}</tr>`
   });
-  return shell('TELEMEDICINE : 27 MCH DAILY PERFORMANCE REPORT',reportKpis([['👨‍⚕️','TOP 3 MCH DOCTORS',topDocs,'green'],['👥','BEST MCH TODAY WITH MOST ACTIVE DOCTORS',`${mostDoc.hospital||'—'} • ${mostDoc.doctors||0}`,''],['🏆','BEST MCH TODAY WITH HIGHEST CONSULTATIONS',`${mostCon.hospital||'—'} • ${fmt(mostCon.actual||0)}`,'saffron'],['🏥','CONTRIBUTING MCH',`${contrib}/27`,'green'],['📊','TOTAL CONSULTATIONS FROM MCH TODAY',fmt(act),''],['🩺','TOTAL ACTIVE DOCTORS FROM MCH TODAY',fmt(doc),'saffron']])+`<table class="mch-table"><thead><tr class="blue2"><th>Sl No.</th><th>District</th><th>Hospital Name</th><th>*Expected Teleconsultations</th><th>Number of Doctors</th><th>Actual Teleconsultations</th><th>Deficit / Surplus Consultations</th><th>Rank / Remarks</th></tr></thead><tbody>${rows}<tr class="total-row"><td colspan="3">Total Consultations</td><td>${fmt(ex)}</td><td>${doc}</td><td>${fmt(act)}</td><td>${Math.max(0,Math.round((ex-act)/ex*100))}%</td><td></td></tr></tbody></table>`)
+  return shell('TELEMEDICINE : 27 MCH DAILY PERFORMANCE REPORT',reportKpis([['👨‍⚕️','TOP 3 MCH DOCTORS',topDocs,'green'],['👥','BEST MCH TODAY WITH MOST ACTIVE DOCTORS',`${mostDoc.hospital||'—'} • ${mostDoc.doctors||0}`,''],['🏆','BEST MCH TODAY WITH HIGHEST CONSULTATIONS',`${mostCon.hospital||'—'} • ${fmt(mostCon.actual||0)}`,'saffron'],['🏥','CONTRIBUTING MCH',`${contrib}/27`,'green'],['📊','TOTAL CONSULTATIONS FROM MCH TODAY',fmt(act),''],['🩺','TOTAL ACTIVE DOCTORS FROM MCH TODAY',fmt(doc),'saffron']])+`<table class="mch-table"><thead><tr class="blue2"><th>Sl No.</th><th>District</th><th>Hospital Name</th><th>*Expected Teleconsultations</th><th>Number of Doctors</th><th>Actual Teleconsultations</th><th>Deficit / Surplus Consultations</th><th>Rank</th></tr></thead><tbody>${rows}<tr class="total-row"><td colspan="3">Total Consultations</td><td>${fmt(ex)}</td><td>${doc}</td><td>${fmt(act)}</td><td>${Math.max(0,Math.round((ex-act)/ex*100))}%</td><td></td></tr></tbody></table>`)
 }
 function renderSummary(){
   const s=reports.summary,w=s.wb,row=x=>`<tr><td>${x.sl}</td><td class="facility">${x.name}</td><td>${fmt(x.operational)}</td><td>${fmt(x.logged)}</td><td>${fmt(x.active)}</td><td>${Math.round(x.activePct*100)}%</td><td>${x.expected??''}</td><td>${x.doctors??''}</td><td>${x.avail!=null?Math.round(x.avail*100)+'%':''}</td><td>${fmt(x.spoke)}</td><td>${fmt(x.perSpoke)}</td><td>${x.hub!=null?fmt(x.hub):''}</td><td>${x.perDoctor!=null?fmt(x.perDoctor):''}</td></tr>`;
   return shell('TELEMEDICINE :: STATE REPORT',`<table class="summary-table"><thead><tr><th rowspan="2" class="blue">Sl. No.</th><th rowspan="2" class="blue">Health Facilities</th><th colspan="4" class="orange">ACTIVE SPOKES</th><th colspan="3" class="blue">DOCTORS AVAILABILITY</th><th colspan="4" class="darkgreen">PERFORMANCE ANALYSIS</th></tr><tr><th class="blue">No of Operational<br>Spokes [A]</th><th class="blue">Total No of<br>Spokes Logged in [B]</th><th class="blue">Active Spokes<br>(>=10) [C]</th><th class="blue">% Active Spoke<br>[C/A×100]</th><th class="blue">Expected Doctors<br>[C]</th><th class="blue">Active Doctors<br>[D]</th><th class="blue">% Availability<br>[D/C×100]</th><th class="blue">Spoke Total<br>Consultations [E]</th><th class="blue">No of consultations per<br>Operational Spoke</th><th class="blue">* HUB Total<br>Consultations [F]</th><th class="blue">No of consultations<br>per Active Doctor</th></tr></thead><tbody>${s.rows.map(row).join('')}<tr class="total-row"><td colspan="2">WEST BENGAL</td><td>${fmt(w.operational)}</td><td>${fmt(w.logged)}</td><td>${fmt(w.active)}</td><td>${Math.round(w.activePct*100)}%</td><td>${Math.round(w.expected)}</td><td>${fmt(w.doctors)}</td><td>${Math.round(w.avail*100)}%</td><td>${fmt(w.spoke)}</td><td>${fmt(w.perSpoke)}</td><td>${fmt(w.hub)}</td><td>${fmt(w.perDoctor)}</td></tr><tr class="note"><td>NOTE</td><td>* Hub Performance :</td><td colspan="2">${fmt(s.notes.mchOther)}</td><td colspan="5">Number of consultation done by MCH, State Telemedicine Center and Super Specialist Center</td><td colspan="2">${fmt(s.notes.kolkataHub)}</td><td>Others Consultation (Correctional Home, Cardio, Neuro etc.)</td><td>${fmt(s.notes.others)}</td></tr></tbody></table><div class="footnote">** Active Spokes : Completed at least ten consultation Vide Memo No. HFW/NCD/462/2021 dated 8th October 2021</div>`)
 }
-async function captureReportHighQuality(node){
-  node.classList.add('export-large');
+async function buildExportCanvas(){
+  const source=$('reportCanvas');
+  if(!source) throw new Error('Report section not found.');
+
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+  const clone=source.cloneNode(true);
+  clone.id='reportCanvasExport';
+  clone.classList.add('export-capture','export-large');
+
+  const wrapper=document.createElement('div');
+  wrapper.className='export-capture-wrapper';
+  wrapper.style.position='fixed';
+  wrapper.style.left='-100000px';
+  wrapper.style.top='0';
+  wrapper.style.width='2400px';
+  wrapper.style.maxWidth='none';
+  wrapper.style.minWidth='2400px';
+  wrapper.style.background='#fff';
+  wrapper.style.overflow='visible';
+  wrapper.style.zIndex='-1';
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
+
+  // Never let dashboard scroll containers or responsive media rules
+  // clip the report during export.
+  clone.querySelectorAll('*').forEach(el=>{
+    el.style.maxHeight='none';
+    el.style.overflow='visible';
+  });
+  clone.style.width='2400px';
+  clone.style.minWidth='2400px';
+  clone.style.maxWidth='none';
+  clone.style.transform='none';
+
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+
+  const width=Math.ceil(clone.scrollWidth);
+  const height=Math.ceil(clone.scrollHeight);
+  if(!width || !height) throw new Error('The complete report is not available for export.');
+
   try{
-    return await html2canvas(node,{
-      scale:5,backgroundColor:'#ffffff',useCORS:true,windowWidth:node.scrollWidth,windowHeight:node.scrollHeight,logging:false
+    return await html2canvas(clone,{
+      scale:2.5,
+      useCORS:true,
+      allowTaint:false,
+      backgroundColor:'#ffffff',
+      logging:false,
+      imageTimeout:20000,
+      width,
+      height,
+      windowWidth:Math.max(width,2400),
+      windowHeight:height,
+      scrollX:0,
+      scrollY:0
     });
-  }
-  finally {
-    node.classList.remove('export-large');
+  } finally {
+    wrapper.remove();
   }
 }
+
 async function exportCurrentPNG(){
   const node=$('reportCanvas');
   if(!node)return;
   const btn=document.querySelector('.report-toolbar .png'),old=btn.textContent;
   btn.textContent='⏳ PREPARING HD...';
   try{
-    const canvas=await captureReportHighQuality(node);
+    const canvas=await buildExportCanvas();
     const a=document.createElement('a');
     a.download=`${active.toUpperCase()}_Report_${$('reportDate').value}_HD.png`;
     a.href=canvas.toDataURL('image/png');
     a.click();
   }
   catch(e){
-    alert('PNG export failed: '+e.message)
+    console.error(e);
+    alert('PNG export failed: '+e.message);
   }
   finally{
-    btn.textContent=old
+    btn.textContent=old;
   }
 }
+
 async function exportCurrentPDF(){
   const node=$('reportCanvas');
   if(!node)return;
   const btn=document.querySelector('.report-toolbar .pdf'),old=btn.textContent;
   btn.textContent='⏳ PREPARING HD PDF...';
   try{
-    const canvas=await captureReportHighQuality(node);
-    const {
-      jsPDF
-    }
-    =window.jspdf;
+    const canvas=await buildExportCanvas();
+    const {jsPDF}=window.jspdf;
     const pdf=new jsPDF({
-      orientation:'landscape',unit:'mm',format:'a3',compress:true
+      orientation:'landscape',
+      unit:'mm',
+      format:'a3',
+      compress:true,
+      putOnlyUsedFonts:true
     });
-    const pageW=420,pageH=297,margin=8,usableW=pageW-margin*2,usableH=pageH-margin*2;
-    const pxPerMM=canvas.width/usableW;
-    const sliceH=Math.floor(usableH*pxPerMM);
-    let y=0,page=0;
-    while(y<canvas.height){
-      const h=Math.min(sliceH,canvas.height-y);
-      const slice=document.createElement('canvas');
-      slice.width=canvas.width;
-      slice.height=h;
-      const ctx=slice.getContext('2d');
-      ctx.fillStyle='#fff';
-      ctx.fillRect(0,0,slice.width,slice.height);
-      ctx.drawImage(canvas,0,y,canvas.width,h,0,0,canvas.width,h);
-      if(page>0)pdf.addPage('a3','landscape');
-      const imgH=h/pxPerMM;
-      pdf.addImage(slice.toDataURL('image/jpeg',0.98),'JPEG',margin,margin,usableW,imgH,undefined,'FAST');
-      y+=h;
-      page++;
+
+    // Same export principle as the AAM-HWC dashboard:
+    // the complete dashboard is rendered first, then fitted as one
+    // image on a single A3 landscape page. No table row slicing and no artificial margins.
+    const pageW=420,pageH=297,margin=0;
+    const usableW=pageW,usableH=pageH;
+    const ratio=canvas.width/canvas.height;
+    let imgW=usableW;
+    let imgH=imgW/ratio;
+    if(imgH>usableH){
+      imgH=usableH;
+      imgW=imgH*ratio;
     }
+    const x=(pageW-imgW)/2;
+    const y=(pageH-imgH)/2;
+    const image=canvas.toDataURL('image/jpeg',0.985);
+    pdf.addImage(image,'JPEG',x,y,imgW,imgH,undefined,'FAST');
     pdf.save(`${active.toUpperCase()}_Report_${$('reportDate').value}_HD.pdf`);
   }
   catch(e){
-    alert('PDF export failed: '+e.message)
+    console.error(e);
+    alert('PDF export failed: '+e.message);
   }
   finally{
-    btn.textContent=old
+    btn.textContent=old;
   }
 }
 function setCellStyle(ws,addr,fill,bold=false,align='center',fontSize=10,fontColor='111111'){
@@ -552,7 +597,10 @@ $('exportBtn').onclick=()=>{
   styleSheet(ws,'A3:J3',{
     fill:'6F91B2',bold:true,fontSize:10
   });
-  ws['!merges']=[XLSX.utils.decode_range('A1:J1'),XLSX.utils.decode_range('A2:B2'),XLSX.utils.decode_range(`A${a.length}:B${a.length}`)];
+  // Keep the PHC report date visible in Excel: A2 contains the label and B2 contains the date.
+  // Do NOT merge A2:B2 because SheetJS preserves only the top-left cell of a merge.
+  ws['!merges']=[XLSX.utils.decode_range('A1:J1'),XLSX.utils.decode_range(`A${a.length}:B${a.length}`)];
+  ws['B2'].s={...(ws['B2']?.s||{}), alignment:{horizontal:'left',vertical:'center'}, font:{name:'Aptos',sz:11,bold:true,color:{rgb:'111111'}}};
   for(let r=4; r<4+p.length; r++){
     const fill=zoneClass(p[r-4].overall)==='row-good'?'B8D9BD':zoneClass(p[r-4].overall)==='row-mid'?'EAD9CA':'F69295';
     styleSheet(ws,`A${r}:J${r}`,{
@@ -588,7 +636,10 @@ $('exportBtn').onclick=()=>{
   });
   XLSX.utils.book_append_sheet(wb,ws,'SB_Date');
   const m=reports.mch,ex=m.reduce((s,x)=>s+x.expected,0),doc=m.reduce((s,x)=>s+x.doctors,0),act=m.reduce((s,x)=>s+x.actual,0);
-  let mA=[['TELEMEDICINE : 27 MCH Daily Performance Report','','','','','','',''],[d,'','','','','','',''],['Sl No.','District','Hospital Name','*Expected Teleconsultations','Number of Doctors','Actual Teleconsultations','Deficit / Surplus Consultations','Rank / Remarks'],...m.map(x=>[x.rank,x.district,x.hospital,x.expected,x.doctors,x.actual,Math.max(0,x.deficit),x.deficit>=.999?'Not contributing in Telemedicine initiative; Nodal Officer, TM of this Hospital is requested to take necessary action':x.rank]),['Total Consultations','','',ex,doc,act,(ex-act)/ex,'']];
+  const mchRemark='Not contributing in Telemedicine initiative; Nodal Officer, TM of this Hospital is requested to take necessary action';
+  const mchNonStart=m.findIndex(x=>Number(x.deficit)>=.999);
+  const mchNonCount=mchNonStart>=0?m.length-mchNonStart:0;
+  let mA=[['TELEMEDICINE : 27 MCH Daily Performance Report','','','','','','',''],[d,'','','','','','',''],['Sl No.','District','Hospital Name','*Expected Teleconsultations','Number of Doctors','Actual Teleconsultations','Deficit / Surplus Consultations','Rank / Remarks'],...m.map((x,i)=>[x.rank,x.district,x.hospital,x.expected,x.doctors,x.actual,Math.max(0,x.deficit),Number(x.deficit)>=.999?(i===mchNonStart?mchRemark:''):x.rank]),['Total Consultations','','',ex,doc,act,(ex-act)/ex,'']];
   ws=makeSheet(mA,[7,18,32,15,14,15,16,40]);
   styleSheet(ws,'A1:H1',{
     fill:'BFD7E3',bold:true,fontSize:14
@@ -599,7 +650,15 @@ $('exportBtn').onclick=()=>{
   styleSheet(ws,'A3:H3',{
     fill:'17366A',bold:true,fontSize:10,fontColor:'FFFFFF'
   });
+  // Merge the non-contributing MCH remark vertically in the Excel export, exactly like the dashboard table.
   ws['!merges']=[XLSX.utils.decode_range('A1:H1'),XLSX.utils.decode_range('A2:H2'),XLSX.utils.decode_range(`A${mA.length}:C${mA.length}`)];
+  if(mchNonCount>1){
+    const startRow=4+mchNonStart;
+    const endRow=startRow+mchNonCount-1;
+    ws['!merges'].push(XLSX.utils.decode_range(`H${startRow}:H${endRow}`));
+    ws[`H${startRow}`]={...(ws[`H${startRow}`]||{}),v:mchRemark,t:'s'};
+    for(let rr=startRow+1;rr<=endRow;rr++) delete ws[`H${rr}`];
+  }
   for(let r=4; r<4+m.length; r++){
     let fill=mchZoneClass(m[r-4])==='row-good'?'B8D9BD':mchZoneClass(m[r-4])==='row-mid'?'EAD9CA':'F69295';
     styleSheet(ws,`A${r}:H${r}`,{

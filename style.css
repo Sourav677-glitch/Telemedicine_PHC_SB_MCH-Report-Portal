@@ -1964,3 +1964,1768 @@ footer:after {
   height:40px!important;
   white-space:nowrap!important;
 }
+
+/* =========================================================
+   COMPLETE REPORT EXPORT — AAM-HWC STYLE
+   Export-only rules. Normal dashboard layout is unchanged.
+   The export uses a wide deterministic canvas so responsive
+   media queries cannot collapse KPI cards or split the table.
+   ========================================================= */
+.report-canvas.export-capture {
+  width:1600px !important;
+  min-width:1600px !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  transform:none !important;
+  background:#fff !important;
+}
+.report-canvas.export-capture .report-title {
+  min-height:46px !important;
+  padding:7px 210px 7px 24px !important;
+  font-size:18px !important;
+  line-height:1.15 !important;
+}
+.report-canvas.export-capture .report-title .date,
+.report-canvas.export-capture .report-title .time {
+  font-size:13px !important;
+  top:8px !important;
+}
+.report-canvas.export-capture .report-kpis {
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:8px !important;
+  margin:8px 0 !important;
+}
+.report-canvas.export-capture .report-kpis.six {
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+.report-canvas.export-capture .report-kpi {
+  min-height:72px !important;
+  padding:8px 10px 8px 42px !important;
+  border-radius:10px !important;
+  box-shadow:0 3px 8px rgba(20,55,90,.06) !important;
+}
+.report-canvas.export-capture .report-kpi-icon {
+  padding:11px !important;
+  font-size:16px !important;
+}
+.report-canvas.export-capture .report-kpi span {
+  font-size:10px !important;
+  line-height:1.15 !important;
+}
+.report-canvas.export-capture .report-kpi b {
+  font-size:18px !important;
+  line-height:1.12 !important;
+  margin-top:3px !important;
+}
+.report-canvas.export-capture .report-kpi em {
+  font-size:10px !important;
+  line-height:1.2 !important;
+}
+.report-canvas.export-capture table {
+  width:100% !important;
+  max-width:none !important;
+  table-layout:fixed !important;
+  font-size:10px !important;
+}
+.report-canvas.export-capture th,
+.report-canvas.export-capture td {
+  padding:3px 4px !important;
+  line-height:1.08 !important;
+  font-size:10px !important;
+}
+.report-canvas.export-capture .phc-table th {
+  font-size:9.5px !important;
+  line-height:1.05 !important;
+  padding:3px 3px !important;
+}
+.report-canvas.export-capture .phc-table td {
+  font-size:10px !important;
+  font-weight:900 !important;
+  height:25px !important;
+}
+.report-canvas.export-capture .phc-table .district {
+  font-size:11px !important;
+  line-height:1.05 !important;
+}
+.report-canvas.export-capture .phc-table .total-row td {
+  font-size:12px !important;
+  padding:5px 3px !important;
+}
+.report-canvas.export-capture .sb-wrap {
+  gap:20px !important;
+  padding:4px 0 !important;
+}
+.report-canvas.export-capture .sb-title {
+  font-size:14px !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .sb-title small {
+  font-size:8px !important;
+}
+.report-canvas.export-capture .sb-table td {
+  font-size:10px !important;
+  height:24px !important;
+  padding:3px 4px !important;
+}
+.report-canvas.export-capture .sb-table th {
+  font-size:9px !important;
+  padding:3px !important;
+}
+.report-canvas.export-capture .sb-table .doctor {
+  font-size:10px !important;
+}
+.report-canvas.export-capture .sb-total td {
+  font-size:12px !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .sb-grand {
+  font-size:17px !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .legend div {
+  font-size:8px !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .mch-table th {
+  font-size:9px !important;
+  line-height:1.08 !important;
+  padding:4px 3px !important;
+}
+.report-canvas.export-capture .mch-table td {
+  font-size:9px !important;
+  line-height:1.08 !important;
+  padding:3px !important;
+}
+.report-canvas.export-capture .mch-table td:nth-child(2),
+.report-canvas.export-capture .mch-table td:nth-child(3) {
+  font-size:10px !important;
+}
+.report-canvas.export-capture .mch-table .remark,
+.report-canvas.export-capture .mch-table .merged-remark {
+  font-size:9px !important;
+  line-height:1.15 !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .mch-table .total-row td {
+  font-size:11px !important;
+  padding:5px 3px !important;
+}
+.report-canvas.export-capture .summary-table th {
+  font-size:9px !important;
+  line-height:1.05 !important;
+  padding:4px 3px !important;
+}
+.report-canvas.export-capture .summary-table td {
+  font-size:9px !important;
+  line-height:1.08 !important;
+  padding:3px !important;
+}
+.report-canvas.export-capture .summary-table .facility {
+  font-size:11px !important;
+}
+.report-canvas.export-capture .summary-table .total-row td {
+  font-size:12px !important;
+  padding:5px 3px !important;
+}
+.report-canvas.export-capture .summary-table .note td {
+  font-size:8.5px !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .footnote {
+  font-size:10px !important;
+  line-height:1.15 !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .report-meta {
+  font-size:8px !important;
+  margin-top:5px !important;
+  padding-bottom:4px !important;
+}
+
+
+/* =========================================================
+   MOBILE-READABLE HD EXPORT — FINAL TYPOGRAPHY PASS
+   Export only. Normal dashboard typography is untouched.
+   Larger source canvas + larger type keeps the complete report
+   readable when the PNG/PDF is viewed on a phone.
+   ========================================================= */
+.report-canvas.export-capture {
+  width:2000px !important;
+  min-width:2000px !important;
+}
+.report-canvas.export-capture .report-title {
+  min-height:58px !important;
+  padding:9px 260px 9px 28px !important;
+  font-size:22px !important;
+  line-height:1.15 !important;
+}
+.report-canvas.export-capture .report-title .date,
+.report-canvas.export-capture .report-title .time {
+  font-size:15px !important;
+  top:11px !important;
+}
+.report-canvas.export-capture .report-kpis {
+  gap:10px !important;
+  margin:10px 0 !important;
+}
+.report-canvas.export-capture .report-kpi {
+  min-height:88px !important;
+  padding:10px 14px 10px 50px !important;
+  border-radius:11px !important;
+}
+.report-canvas.export-capture .report-kpi-icon {
+  padding:13px !important;
+  font-size:20px !important;
+}
+.report-canvas.export-capture .report-kpi span {
+  font-size:12px !important;
+  line-height:1.15 !important;
+}
+.report-canvas.export-capture .report-kpi b {
+  font-size:22px !important;
+  line-height:1.12 !important;
+  margin-top:4px !important;
+}
+.report-canvas.export-capture .report-kpi em {
+  font-size:12px !important;
+  line-height:1.2 !important;
+}
+.report-canvas.export-capture table {
+  font-size:12px !important;
+}
+.report-canvas.export-capture th,
+.report-canvas.export-capture td {
+  padding:4px 5px !important;
+  line-height:1.1 !important;
+  font-size:12px !important;
+}
+.report-canvas.export-capture .phc-table th {
+  font-size:11px !important;
+  line-height:1.08 !important;
+  padding:5px 4px !important;
+}
+.report-canvas.export-capture .phc-table td {
+  font-size:12px !important;
+  font-weight:900 !important;
+  height:31px !important;
+  padding:4px 5px !important;
+}
+.report-canvas.export-capture .phc-table .district {
+  font-size:13px !important;
+  line-height:1.08 !important;
+}
+.report-canvas.export-capture .phc-table .total-row td {
+  font-size:14px !important;
+  padding:6px 4px !important;
+  height:38px !important;
+}
+.report-canvas.export-capture .sb-title {
+  font-size:17px !important;
+}
+.report-canvas.export-capture .sb-title small {
+  font-size:10px !important;
+}
+.report-canvas.export-capture .sb-table td {
+  font-size:12px !important;
+  height:29px !important;
+  padding:4px 5px !important;
+}
+.report-canvas.export-capture .sb-table th {
+  font-size:11px !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .sb-table .doctor {
+  font-size:12px !important;
+}
+.report-canvas.export-capture .sb-total td {
+  font-size:14px !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .sb-grand {
+  font-size:20px !important;
+}
+.report-canvas.export-capture .legend div {
+  font-size:10px !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .mch-table th {
+  font-size:11px !important;
+  line-height:1.1 !important;
+  padding:5px 4px !important;
+}
+.report-canvas.export-capture .mch-table td {
+  font-size:11px !important;
+  line-height:1.1 !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .mch-table td:nth-child(2),
+.report-canvas.export-capture .mch-table td:nth-child(3) {
+  font-size:12px !important;
+}
+.report-canvas.export-capture .mch-table .remark,
+.report-canvas.export-capture .mch-table .merged-remark {
+  font-size:11px !important;
+  line-height:1.15 !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .mch-table .total-row td {
+  font-size:13px !important;
+  padding:6px 4px !important;
+}
+.report-canvas.export-capture .summary-table th {
+  font-size:11px !important;
+  line-height:1.08 !important;
+  padding:5px 4px !important;
+}
+.report-canvas.export-capture .summary-table td {
+  font-size:11px !important;
+  line-height:1.1 !important;
+  padding:4px !important;
+}
+.report-canvas.export-capture .summary-table .facility {
+  font-size:13px !important;
+}
+.report-canvas.export-capture .summary-table .total-row td {
+  font-size:14px !important;
+  padding:6px 4px !important;
+}
+.report-canvas.export-capture .summary-table .note td {
+  font-size:10px !important;
+  padding:5px !important;
+}
+.report-canvas.export-capture .footnote {
+  font-size:12px !important;
+  line-height:1.18 !important;
+  padding:6px !important;
+}
+.report-canvas.export-capture .report-meta {
+  font-size:10px !important;
+  margin-top:6px !important;
+  padding-bottom:5px !important;
+}
+
+
+/* =========================================================
+   MOBILE-FIRST PDF / PNG EXPORT — LARGE TYPE + A3 LANDSCAPE
+   Export only. Normal dashboard is unchanged.
+   Designed so the report uses the available page area instead
+   of shrinking the entire dashboard to tiny text.
+   ========================================================= */
+.report-canvas.export-capture {
+  width:2400px !important;
+  min-width:2400px !important;
+  max-width:none !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+.report-canvas.export-capture .report-title {
+  min-height:72px !important;
+  padding:12px 320px 12px 34px !important;
+  font-size:28px !important;
+  line-height:1.12 !important;
+}
+.report-canvas.export-capture .report-title .date,
+.report-canvas.export-capture .report-title .time {
+  font-size:18px !important;
+  top:16px !important;
+}
+
+.report-canvas.export-capture .report-kpis {
+  gap:14px !important;
+  margin:14px 0 !important;
+}
+.report-canvas.export-capture .report-kpi {
+  min-height:118px !important;
+  padding:14px 18px 14px 66px !important;
+  border-radius:14px !important;
+}
+.report-canvas.export-capture .report-kpi-icon {
+  padding:16px !important;
+  font-size:24px !important;
+}
+.report-canvas.export-capture .report-kpi span {
+  font-size:15px !important;
+  line-height:1.15 !important;
+}
+.report-canvas.export-capture .report-kpi b {
+  font-size:29px !important;
+  line-height:1.12 !important;
+  margin-top:6px !important;
+}
+.report-canvas.export-capture .report-kpi em {
+  font-size:15px !important;
+  line-height:1.2 !important;
+}
+
+.report-canvas.export-capture table {
+  font-size:15px !important;
+}
+.report-canvas.export-capture th,
+.report-canvas.export-capture td {
+  padding:6px 7px !important;
+  line-height:1.12 !important;
+  font-size:15px !important;
+}
+
+/* PHC / AAM-PHC report */
+.report-canvas.export-capture .phc-table th {
+  font-size:14px !important;
+  line-height:1.1 !important;
+  padding:7px 6px !important;
+}
+.report-canvas.export-capture .phc-table td {
+  font-size:15px !important;
+  font-weight:900 !important;
+  height:40px !important;
+  padding:6px 7px !important;
+}
+.report-canvas.export-capture .phc-table .district {
+  font-size:16px !important;
+  line-height:1.08 !important;
+}
+.report-canvas.export-capture .phc-table .total-row td {
+  font-size:17px !important;
+  padding:8px 6px !important;
+  height:48px !important;
+}
+
+/* SB doctor report */
+.report-canvas.export-capture .sb-wrap {
+  gap:28px !important;
+  padding:8px 0 !important;
+}
+.report-canvas.export-capture .sb-title {
+  font-size:22px !important;
+  padding:7px !important;
+}
+.report-canvas.export-capture .sb-title small {
+  font-size:13px !important;
+}
+.report-canvas.export-capture .sb-table th {
+  font-size:14px !important;
+  padding:7px !important;
+}
+.report-canvas.export-capture .sb-table td {
+  font-size:15px !important;
+  height:40px !important;
+  padding:6px 7px !important;
+}
+.report-canvas.export-capture .sb-table .doctor {
+  font-size:16px !important;
+}
+.report-canvas.export-capture .sb-total td {
+  font-size:17px !important;
+  padding:7px !important;
+}
+.report-canvas.export-capture .sb-grand {
+  font-size:24px !important;
+  padding:8px !important;
+}
+.report-canvas.export-capture .legend div {
+  font-size:13px !important;
+  padding:7px !important;
+}
+
+/* MCH / summary tables */
+.report-canvas.export-capture .mch-table th,
+.report-canvas.export-capture .summary-table th {
+  font-size:14px !important;
+  line-height:1.1 !important;
+  padding:7px 6px !important;
+}
+.report-canvas.export-capture .mch-table td,
+.report-canvas.export-capture .summary-table td {
+  font-size:14px !important;
+  line-height:1.12 !important;
+  padding:6px !important;
+}
+.report-canvas.export-capture .mch-table td:nth-child(2),
+.report-canvas.export-capture .mch-table td:nth-child(3),
+.report-canvas.export-capture .summary-table .facility {
+  font-size:16px !important;
+}
+.report-canvas.export-capture .mch-table .remark,
+.report-canvas.export-capture .mch-table .merged-remark {
+  font-size:14px !important;
+  line-height:1.15 !important;
+  padding:7px !important;
+}
+.report-canvas.export-capture .mch-table .total-row td,
+.report-canvas.export-capture .summary-table .total-row td {
+  font-size:16px !important;
+  padding:8px 6px !important;
+}
+.report-canvas.export-capture .summary-table .note td {
+  font-size:12px !important;
+  padding:7px !important;
+}
+.report-canvas.export-capture .footnote {
+  font-size:14px !important;
+  line-height:1.2 !important;
+  padding:8px !important;
+}
+.report-canvas.export-capture .report-meta {
+  font-size:12px !important;
+  margin-top:8px !important;
+  padding-bottom:7px !important;
+}
+
+
+/* =========================================================
+   FULL-PAGE A3 EXPORT — USE THE UPPER/LOWER FREE SPACE
+   The previous export had a wide canvas but insufficient
+   vertical content, so the PDF renderer fitted it to the page
+   and left large white bands. These rules deliberately increase
+   vertical density/typography so the report fills the A3 page.
+   Export only; normal dashboard is untouched.
+   ========================================================= */
+.report-canvas.export-capture {
+  width:2400px !important;
+  min-width:2400px !important;
+  max-width:2400px !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+.report-canvas.export-capture.report-phc .report-title {
+  min-height:88px !important;
+  padding:16px 330px 16px 38px !important;
+  font-size:32px !important;
+}
+.report-canvas.export-capture.report-phc .report-title .date,
+.report-canvas.export-capture.report-phc .report-title .time {
+  font-size:21px !important;
+  top:22px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpis {
+  gap:16px !important;
+  margin:16px 0 !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi {
+  min-height:188px !important;
+  padding:20px 24px 20px 78px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi-icon {
+  padding:18px !important;
+  font-size:28px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi span {
+  font-size:18px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi b {
+  font-size:34px !important;
+  margin-top:9px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi em {
+  font-size:18px !important;
+}
+.report-canvas.export-capture.report-phc .phc-table th {
+  font-size:17px !important;
+  line-height:1.12 !important;
+  padding:10px 8px !important;
+}
+.report-canvas.export-capture.report-phc .phc-table td {
+  font-size:18px !important;
+  line-height:1.1 !important;
+  height:53px !important;
+  padding:8px 9px !important;
+}
+.report-canvas.export-capture.report-phc .phc-table .district {
+  font-size:19px !important;
+}
+.report-canvas.export-capture.report-phc .phc-table .total-row td {
+  font-size:21px !important;
+  height:62px !important;
+  padding:10px 8px !important;
+}
+.report-canvas.export-capture.report-phc .report-meta {
+  font-size:14px !important;
+  margin-top:8px !important;
+  padding-bottom:8px !important;
+}
+
+.report-canvas.export-capture.report-sb .report-title {
+  min-height:88px !important;
+  padding:16px 330px 16px 38px !important;
+  font-size:30px !important;
+}
+.report-canvas.export-capture.report-sb .report-title .date,
+.report-canvas.export-capture.report-sb .report-title .time {
+  font-size:21px !important;
+  top:22px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpis {
+  gap:16px !important;
+  margin:16px 0 20px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpi {
+  min-height:205px !important;
+  padding:20px 24px 20px 78px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpi-icon {
+  padding:18px !important;
+  font-size:28px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpi span {
+  font-size:18px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpi b {
+  font-size:34px !important;
+  margin-top:9px !important;
+}
+.report-canvas.export-capture.report-sb .report-kpi em {
+  font-size:18px !important;
+}
+.report-canvas.export-capture.report-sb .sb-wrap {
+  gap:30px !important;
+  padding:10px 0 12px !important;
+}
+.report-canvas.export-capture.report-sb .sb-title {
+  font-size:27px !important;
+  padding:11px !important;
+  min-height:70px !important;
+}
+.report-canvas.export-capture.report-sb .sb-title small {
+  font-size:16px !important;
+}
+.report-canvas.export-capture.report-sb .sb-table th {
+  font-size:17px !important;
+  padding:9px !important;
+}
+.report-canvas.export-capture.report-sb .sb-table td {
+  font-size:18px !important;
+  height:88px !important;
+  padding:10px 9px !important;
+}
+.report-canvas.export-capture.report-sb .sb-table .doctor {
+  font-size:19px !important;
+}
+.report-canvas.export-capture.report-sb .sb-total td {
+  font-size:21px !important;
+  height:64px !important;
+  padding:9px !important;
+}
+.report-canvas.export-capture.report-sb .sb-grand {
+  font-size:29px !important;
+  padding:13px !important;
+  min-height:72px !important;
+}
+.report-canvas.export-capture.report-sb .legend {
+  margin-top:10px !important;
+  gap:10px !important;
+}
+.report-canvas.export-capture.report-sb .legend div {
+  font-size:16px !important;
+  padding:10px !important;
+}
+.report-canvas.export-capture.report-sb .report-meta {
+  font-size:14px !important;
+  margin-top:8px !important;
+  padding-bottom:8px !important;
+}
+
+.report-canvas.export-capture.report-mch .report-title,
+.report-canvas.export-capture.report-summary .report-title {
+  min-height:88px !important;
+  padding:16px 330px 16px 38px !important;
+  font-size:30px !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi,
+.report-canvas.export-capture.report-summary .report-kpi {
+  min-height:170px !important;
+}
+.report-canvas.export-capture.report-mch .mch-table th,
+.report-canvas.export-capture.report-summary .summary-table th {
+  font-size:16px !important;
+  padding:9px 8px !important;
+}
+.report-canvas.export-capture.report-mch .mch-table td,
+.report-canvas.export-capture.report-summary .summary-table td {
+  font-size:17px !important;
+  padding:8px !important;
+  line-height:1.12 !important;
+}
+.report-canvas.export-capture.report-mch .mch-table .total-row td,
+.report-canvas.export-capture.report-summary .summary-table .total-row td {
+  font-size:20px !important;
+  padding:10px !important;
+}
+
+
+/* =========================================================
+   MCH EXPORT — MATCH THE LARGE, HIGH-VISIBILITY REFERENCE
+   The dashboard remains unchanged; these rules apply only to
+   the cloned export canvas used by PNG/PDF.
+   ========================================================= */
+.report-canvas.export-large.report-mch {
+  width:2400px!important;
+  min-width:2400px!important;
+  max-width:2400px!important;
+  background:#fff!important;
+  padding:0!important;
+  box-shadow:none!important;
+}
+.report-canvas.export-large.report-mch .report-title {
+  height:118px!important;
+  min-height:118px!important;
+  box-sizing:border-box!important;
+  background:#87ceeb!important;
+  border:2px solid #111!important;
+  border-image:none!important;
+  padding:42px 220px 10px!important;
+  color:#050505!important;
+  font-size:38px!important;
+  letter-spacing:.4px!important;
+}
+.report-canvas.export-large.report-mch .title-main {
+  font-size:38px!important;
+  font-weight:950!important;
+  color:#050505!important;
+}
+.report-canvas.export-large.report-mch .report-title .date,
+.report-canvas.export-large.report-mch .report-title .time {
+  color:#050505!important;
+  font-size:30px!important;
+  font-weight:950!important;
+  top:14px!important;
+}
+.report-canvas.export-large.report-mch .report-title .date { left:24px!important; right:auto!important; }
+.report-canvas.export-large.report-mch .report-title .time { right:24px!important; }
+.report-canvas.export-large.report-mch .report-kpis,
+.report-canvas.export-large.report-mch .report-meta {
+  display:none!important;
+}
+.report-canvas.export-large.report-mch .mch-table {
+  width:100%!important;
+  min-width:0!important;
+  table-layout:fixed!important;
+  border-collapse:collapse!important;
+  margin:0!important;
+  font-size:27px!important;
+}
+.report-canvas.export-large.report-mch .mch-table th {
+  background:#082b72!important;
+  color:#fff!important;
+  border:2px solid #111!important;
+  font-size:27px!important;
+  font-weight:950!important;
+  line-height:1.08!important;
+  padding:15px 10px!important;
+  height:82px!important;
+}
+.report-canvas.export-large.report-mch .mch-table td {
+  border:2px solid #111!important;
+  font-size:25px!important;
+  font-weight:950!important;
+  line-height:1.08!important;
+  padding:8px 10px!important;
+  height:49px!important;
+  color:#050505!important;
+}
+.report-canvas.export-large.report-mch .mch-table td:nth-child(2),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(3) {
+  text-align:left!important;
+  font-size:25px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-mch .mch-table tbody .row-good td { background:#c7e9cb!important; }
+.report-canvas.export-large.report-mch .mch-table tbody .row-mid td { background:#f2dfcf!important; }
+.report-canvas.export-large.report-mch .mch-table tbody .row-bad td { background:#f69295!important; color:#050505!important; text-shadow:none!important; }
+.report-canvas.export-large.report-mch .mch-table .merged-remark {
+  background:#f69295!important;
+  color:#050505!important;
+  font-size:23px!important;
+  line-height:1.2!important;
+  font-weight:950!important;
+  padding:10px!important;
+}
+.report-canvas.export-large.report-mch .mch-table .total-row td {
+  background:#86dc74!important;
+  color:#050505!important;
+  font-size:29px!important;
+  font-weight:950!important;
+  padding:12px 10px!important;
+  height:62px!important;
+}
+.report-canvas.export-large.report-mch .mch-table .total-row td:nth-child(5) { background:#49aee0!important; }
+.report-canvas.export-large.report-mch .mch-table .total-row td:nth-child(6) { background:#fff000!important; }
+.report-canvas.export-large.report-mch .mch-table .total-row td:nth-child(7) { background:#86dc74!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(1),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(1) { width:5%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(2),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(2) { width:14%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(3),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(3) { width:28%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(4),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(4) { width:11%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(5),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(5) { width:10%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(6),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(6) { width:12%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(7),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(7) { width:13%!important; }
+.report-canvas.export-large.report-mch .mch-table th:nth-child(8),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(8) { width:7%!important; }
+
+/* =========================================================
+   PHC + SB EXPORT — MATCH MCH LARGE-FONT REFERENCE
+   Keep KPI cards in PHC/SB exports while using the same
+   high-visibility typography and full A3 page utilization.
+   ========================================================= */
+.report-canvas.export-large.report-phc,
+.report-canvas.export-large.report-sb {
+  width:2400px!important;
+  min-width:2400px!important;
+  max-width:2400px!important;
+  background:#fff!important;
+  padding:0!important;
+  box-shadow:none!important;
+}
+
+/* PHC title */
+.report-canvas.export-large.report-phc .report-title {
+  height:118px!important;
+  min-height:118px!important;
+  box-sizing:border-box!important;
+  padding:42px 220px 10px!important;
+  font-size:38px!important;
+  font-weight:950!important;
+  letter-spacing:.4px!important;
+}
+.report-canvas.export-large.report-phc .title-main {
+  font-size:38px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .report-title .date,
+.report-canvas.export-large.report-phc .report-title .time {
+  font-size:30px!important;
+  font-weight:950!important;
+  top:14px!important;
+}
+.report-canvas.export-large.report-phc .report-title .date { left:24px!important; right:auto!important; }
+.report-canvas.export-large.report-phc .report-title .time { right:24px!important; }
+
+/* PHC KPI — deliberately retained in export */
+.report-canvas.export-large.report-phc .report-kpis {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin:14px 0 18px!important;
+}
+.report-canvas.export-large.report-phc .report-kpi {
+  min-height:220px!important;
+  height:220px!important;
+  box-sizing:border-box!important;
+  padding:24px 28px 24px 92px!important;
+}
+.report-canvas.export-large.report-phc .report-kpi-icon {
+  font-size:34px!important;
+  padding:18px!important;
+  left:20px!important;
+  top:20px!important;
+}
+.report-canvas.export-large.report-phc .report-kpi span {
+  font-size:24px!important;
+  line-height:1.08!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .report-kpi b {
+  font-size:38px!important;
+  line-height:1.05!important;
+  margin-top:12px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .report-kpi em {
+  font-size:22px!important;
+  line-height:1.12!important;
+  font-weight:800!important;
+}
+.report-canvas.export-large.report-phc .report-kpi small {
+  font-size:20px!important;
+}
+
+/* PHC table — same visibility level as MCH reference */
+.report-canvas.export-large.report-phc .phc-table {
+  width:100%!important;
+  min-width:0!important;
+  table-layout:fixed!important;
+  border-collapse:collapse!important;
+  margin:0!important;
+  font-size:25px!important;
+}
+.report-canvas.export-large.report-phc .phc-table th {
+  border:2px solid #111!important;
+  font-size:25px!important;
+  font-weight:950!important;
+  line-height:1.08!important;
+  padding:14px 10px!important;
+  height:78px!important;
+}
+.report-canvas.export-large.report-phc .phc-table td {
+  border:2px solid #111!important;
+  font-size:25px!important;
+  font-weight:950!important;
+  line-height:1.08!important;
+  padding:7px 10px!important;
+  height:52px!important;
+}
+.report-canvas.export-large.report-phc .phc-table .district {
+  text-align:left!important;
+  font-size:26px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .phc-table .total-row td {
+  font-size:29px!important;
+  font-weight:950!important;
+  height:66px!important;
+  padding:10px!important;
+}
+.report-canvas.export-large.report-phc .report-meta {
+  font-size:16px!important;
+  padding:8px 0!important;
+}
+
+/* SB title */
+.report-canvas.export-large.report-sb .report-title {
+  height:118px!important;
+  min-height:118px!important;
+  box-sizing:border-box!important;
+  padding:42px 220px 10px!important;
+  font-size:38px!important;
+  font-weight:950!important;
+  letter-spacing:.4px!important;
+}
+.report-canvas.export-large.report-sb .title-main {
+  font-size:38px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .report-title .date,
+.report-canvas.export-large.report-sb .report-title .time {
+  font-size:30px!important;
+  font-weight:950!important;
+  top:14px!important;
+}
+.report-canvas.export-large.report-sb .report-title .date { left:24px!important; right:auto!important; }
+.report-canvas.export-large.report-sb .report-title .time { right:24px!important; }
+
+/* SB KPI — retained and enlarged */
+.report-canvas.export-large.report-sb .report-kpis {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin:14px 0 18px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi {
+  min-height:220px!important;
+  height:220px!important;
+  box-sizing:border-box!important;
+  padding:24px 28px 24px 92px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi-icon {
+  font-size:34px!important;
+  padding:18px!important;
+  left:20px!important;
+  top:20px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi span {
+  font-size:23px!important;
+  line-height:1.08!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .report-kpi b {
+  font-size:36px!important;
+  line-height:1.05!important;
+  margin-top:12px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .report-kpi em {
+  font-size:21px!important;
+  line-height:1.12!important;
+  font-weight:800!important;
+}
+.report-canvas.export-large.report-sb .report-kpi-breakup {
+  min-height:220px!important;
+}
+.report-canvas.export-large.report-sb .breakup-grid {
+  gap:10px!important;
+}
+.report-canvas.export-large.report-sb .breakup-item {
+  min-height:72px!important;
+}
+.report-canvas.export-large.report-sb .breakup-item strong,
+.report-canvas.export-large.report-sb .breakup-item b {
+  font-size:22px!important;
+}
+.report-canvas.export-large.report-sb .breakup-item small {
+  font-size:16px!important;
+}
+
+.report-canvas.export-large.report-sb .sb-wrap {
+  gap:24px!important;
+  padding:0 0 12px!important;
+}
+.report-canvas.export-large.report-sb .sb-title {
+  font-size:30px!important;
+  min-height:74px!important;
+  padding:12px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .sb-title small {
+  font-size:18px!important;
+}
+.report-canvas.export-large.report-sb .sb-table {
+  font-size:25px!important;
+}
+.report-canvas.export-large.report-sb .sb-table th {
+  font-size:25px!important;
+  font-weight:950!important;
+  padding:13px 10px!important;
+  height:70px!important;
+}
+.report-canvas.export-large.report-sb .sb-table td {
+  font-size:25px!important;
+  font-weight:950!important;
+  height:88px!important;
+  padding:9px 10px!important;
+}
+.report-canvas.export-large.report-sb .sb-table .doctor {
+  font-size:26px!important;
+  font-weight:950!important;
+  text-align:left!important;
+}
+.report-canvas.export-large.report-sb .sb-total td {
+  font-size:28px!important;
+  height:66px!important;
+  padding:10px!important;
+}
+.report-canvas.export-large.report-sb .sb-grand {
+  font-size:31px!important;
+  min-height:74px!important;
+  padding:14px!important;
+}
+.report-canvas.export-large.report-sb .legend div {
+  font-size:18px!important;
+  padding:11px!important;
+}
+.report-canvas.export-large.report-sb .report-meta {
+  font-size:16px!important;
+  padding:8px 0!important;
+}
+
+/* =========================================================
+   FINAL EXPORT FIX — KEEP ALL KPI CONTENT VISIBLE
+   Match the proven MCH typography while retaining KPI cards
+   in PHC, SB and MCH exports.
+   ========================================================= */
+.report-canvas.export-large.report-phc,
+.report-canvas.export-large.report-sb,
+.report-canvas.export-large.report-mch {
+  width:2400px!important;
+  min-width:2400px!important;
+  max-width:2400px!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+
+/* Compact title so more page height is available for readable content. */
+.report-canvas.export-large.report-phc .report-title,
+.report-canvas.export-large.report-sb .report-title,
+.report-canvas.export-large.report-mch .report-title {
+  height:90px!important;
+  min-height:90px!important;
+  padding:31px 220px 8px!important;
+}
+.report-canvas.export-large.report-phc .title-main,
+.report-canvas.export-large.report-sb .title-main,
+.report-canvas.export-large.report-mch .title-main {
+  font-size:38px!important;
+  line-height:1.05!important;
+}
+.report-canvas.export-large.report-phc .report-title .date,
+.report-canvas.export-large.report-phc .report-title .time,
+.report-canvas.export-large.report-sb .report-title .date,
+.report-canvas.export-large.report-sb .report-title .time,
+.report-canvas.export-large.report-mch .report-title .date,
+.report-canvas.export-large.report-mch .report-title .time {
+  font-size:28px!important;
+  top:13px!important;
+}
+
+/* ---------- PHC: 4 KPI cards, all text fully visible ---------- */
+.report-canvas.export-large.report-phc .report-kpis {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin:12px 0 14px!important;
+}
+.report-canvas.export-large.report-phc .report-kpi {
+  min-height:270px!important;
+  height:270px!important;
+  padding:28px 30px 24px 98px!important;
+  overflow:hidden!important;
+}
+.report-canvas.export-large.report-phc .report-kpi-icon {
+  font-size:34px!important;
+  width:58px!important;
+  height:58px!important;
+  left:22px!important;
+  top:24px!important;
+}
+.report-canvas.export-large.report-phc .report-kpi span {
+  font-size:24px!important;
+  line-height:1.1!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .report-kpi b {
+  display:block!important;
+  font-size:38px!important;
+  line-height:1.08!important;
+  margin-top:12px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-phc .report-kpi em {
+  display:block!important;
+  font-size:22px!important;
+  line-height:1.22!important;
+  margin-top:5px!important;
+  font-weight:850!important;
+}
+.report-canvas.export-large.report-phc .report-kpi small {
+  font-size:20px!important;
+}
+/* Give the Top-3 card enough vertical rhythm for all three entries. */
+.report-canvas.export-large.report-phc .report-kpi:nth-child(3) b {
+  font-size:31px!important;
+  line-height:1.02!important;
+}
+.report-canvas.export-large.report-phc .report-kpi:nth-child(3) em {
+  font-size:19px!important;
+  line-height:1.12!important;
+  margin-bottom:12px!important;
+}
+
+.report-canvas.export-large.report-phc .phc-table th {
+  font-size:25px!important;
+  padding:13px 9px!important;
+  height:76px!important;
+}
+.report-canvas.export-large.report-phc .phc-table td {
+  font-size:25px!important;
+  height:49px!important;
+  padding:6px 9px!important;
+}
+.report-canvas.export-large.report-phc .phc-table .district {
+  font-size:26px!important;
+}
+.report-canvas.export-large.report-phc .phc-table .total-row td {
+  font-size:29px!important;
+  height:62px!important;
+}
+
+/* ---------- SB: retain all four KPI blocks and prevent clipping ---------- */
+.report-canvas.export-large.report-sb .report-kpis {
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin:12px 0 14px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi {
+  min-height:230px!important;
+  height:230px!important;
+  padding:26px 28px 22px 96px!important;
+  overflow:hidden!important;
+}
+.report-canvas.export-large.report-sb .report-kpi-icon {
+  font-size:34px!important;
+  width:58px!important;
+  height:58px!important;
+  left:22px!important;
+  top:24px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi span {
+  font-size:22px!important;
+  line-height:1.1!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .report-kpi b {
+  display:block!important;
+  font-size:35px!important;
+  line-height:1.08!important;
+  margin-top:11px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-sb .report-kpi em {
+  display:block!important;
+  font-size:20px!important;
+  line-height:1.15!important;
+  margin-top:4px!important;
+}
+.report-canvas.export-large.report-sb .report-kpi-breakup {
+  min-height:230px!important;
+  height:230px!important;
+  overflow:hidden!important;
+}
+.report-canvas.export-large.report-sb .sb-title {
+  min-height:68px!important;
+  font-size:30px!important;
+  padding:10px!important;
+}
+.report-canvas.export-large.report-sb .sb-table th {
+  font-size:24px!important;
+  padding:12px 9px!important;
+  height:66px!important;
+}
+.report-canvas.export-large.report-sb .sb-table td {
+  font-size:24px!important;
+  height:68px!important;
+  padding:8px 9px!important;
+}
+.report-canvas.export-large.report-sb .sb-table .doctor {
+  font-size:25px!important;
+}
+
+/* ---------- MCH: KPI cards MUST remain in export ---------- */
+.report-canvas.export-large.report-mch .report-kpis {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin:10px 0 12px!important;
+}
+.report-canvas.export-large.report-mch .report-kpi {
+  min-height:185px!important;
+  height:185px!important;
+  padding:22px 24px 20px 88px!important;
+  overflow:hidden!important;
+}
+.report-canvas.export-large.report-mch .report-kpi-icon {
+  font-size:32px!important;
+  width:54px!important;
+  height:54px!important;
+  left:20px!important;
+  top:20px!important;
+}
+.report-canvas.export-large.report-mch .report-kpi span {
+  font-size:22px!important;
+  line-height:1.08!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-mch .report-kpi b {
+  display:block!important;
+  font-size:32px!important;
+  line-height:1.06!important;
+  margin-top:9px!important;
+  font-weight:950!important;
+}
+.report-canvas.export-large.report-mch .report-kpi em {
+  display:block!important;
+  font-size:18px!important;
+  line-height:1.12!important;
+  margin-top:4px!important;
+}
+.report-canvas.export-large.report-mch .report-kpi:nth-child(1) b {
+  font-size:23px!important;
+  line-height:1.08!important;
+}
+.report-canvas.export-large.report-mch .report-kpi:nth-child(1) em {
+  font-size:17px!important;
+}
+.report-canvas.export-large.report-mch .mch-table th {
+  font-size:25px!important;
+  padding:13px 9px!important;
+  height:76px!important;
+}
+.report-canvas.export-large.report-mch .mch-table td {
+  font-size:24px!important;
+  height:45px!important;
+  padding:6px 9px!important;
+}
+.report-canvas.export-large.report-mch .mch-table td:nth-child(2),
+.report-canvas.export-large.report-mch .mch-table td:nth-child(3) {
+  font-size:24px!important;
+}
+.report-canvas.export-large.report-mch .mch-table .merged-remark {
+  font-size:20px!important;
+  line-height:1.12!important;
+}
+.report-canvas.export-large.report-mch .mch-table .total-row td {
+  font-size:27px!important;
+  height:58px!important;
+}
+
+/* FINAL TOP-3 KPI EXPORT FIX
+   The previous generic 132px height caused the third entry to fall outside
+   the KPI card.  Keep the existing large typography, but let the TOP-3 card
+   define a tall grid row so its three entries stay inside the card. */
+.report-canvas.export-capture .report-kpi.top3-kpi {
+  align-self:stretch !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  height:auto !important;
+  min-height:0 !important;
+  padding-top:22px !important;
+  padding-bottom:18px !important;
+}
+
+.report-canvas.export-capture .report-kpi.top3-kpi b {
+  display:block !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  height:auto !important;
+  max-height:none !important;
+  line-height:1.12 !important;
+  margin-top:8px !important;
+}
+
+.report-canvas.export-capture .report-kpi.top3-kpi b em {
+  display:block !important;
+  white-space:normal !important;
+  overflow:visible !important;
+  height:auto !important;
+  margin:2px 0 10px !important;
+  line-height:1.12 !important;
+}
+
+.report-canvas.export-capture .report-kpi.top3-kpi span {
+  display:block !important;
+}
+
+/* PHC: preserve the same large typography while giving the Top-3 card
+   enough vertical space for all 3 users + their PHC/consultation lines. */
+.report-canvas.export-capture.report-phc .report-kpis {
+  grid-auto-rows:270px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi {
+  height:270px !important;
+  min-height:270px !important;
+  padding-top:28px !important;
+  padding-bottom:18px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi b {
+  font-size:31px !important;
+  line-height:1.04 !important;
+  margin-top:10px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi b em {
+  font-size:19px !important;
+  line-height:1.08 !important;
+  margin:2px 0 12px !important;
+}
+
+/* MCH: the first KPI contains 3 doctors, so its row must be taller than the
+   other KPI row.  Both rows remain aligned and the second row is pushed down
+   rather than allowing the third doctor to overlap it. */
+.report-canvas.export-capture.report-mch .report-kpis {
+  grid-template-rows:250px 185px !important;
+  align-items:stretch !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi {
+  height:250px !important;
+  min-height:250px !important;
+  padding-top:22px !important;
+  padding-bottom:18px !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi b {
+  font-size:23px !important;
+  line-height:1.08 !important;
+  margin-top:8px !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi b em {
+  font-size:17px !important;
+  line-height:1.08 !important;
+  margin:2px 0 9px !important;
+}
+/* Align all MCH first-row KPI cards to the taller Top-3 card. */
+.report-canvas.export-capture.report-mch .report-kpis > .report-kpi:nth-child(-n+3) {
+  height:250px !important;
+  min-height:250px !important;
+}
+
+/* =========================================================
+   DEFINITIVE TOP-3 EXPORT FIX
+   Make the Top-3 KPI row physically tall enough for all three
+   entries. Do not alter the established report/table typography.
+   ========================================================= */
+.report-canvas.export-capture.report-phc .report-kpis {
+  grid-auto-rows:320px !important;
+  align-items:stretch !important;
+}
+.report-canvas.export-capture.report-phc .report-kpis > .report-kpi {
+  height:320px !important;
+  min-height:320px !important;
+  box-sizing:border-box !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi {
+  height:320px !important;
+  min-height:320px !important;
+  overflow:hidden !important;
+  padding-top:28px !important;
+  padding-bottom:20px !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi b {
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  white-space:normal !important;
+  line-height:1.04 !important;
+}
+.report-canvas.export-capture.report-phc .report-kpi.top3-kpi b em {
+  display:block !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  white-space:normal !important;
+  line-height:1.08 !important;
+  margin:2px 0 12px !important;
+}
+
+.report-canvas.export-capture.report-mch .report-kpis {
+  grid-template-rows:320px 185px !important;
+  align-items:stretch !important;
+  row-gap:12px !important;
+}
+.report-canvas.export-capture.report-mch .report-kpis > .report-kpi:nth-child(-n+3) {
+  height:320px !important;
+  min-height:320px !important;
+  box-sizing:border-box !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi {
+  height:320px !important;
+  min-height:320px !important;
+  overflow:hidden !important;
+  padding-top:22px !important;
+  padding-bottom:20px !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi b {
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  white-space:normal !important;
+  line-height:1.08 !important;
+}
+.report-canvas.export-capture.report-mch .report-kpi.top3-kpi b em {
+  display:block !important;
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  white-space:normal !important;
+  line-height:1.08 !important;
+  margin:2px 0 10px !important;
+}
+
+/* =========================================================
+   ANDROID TABLET / SMALL-SCREEN UI LAYER
+   Screen-only responsive rules. Export styling is intentionally
+   left untouched so PDF/PNG/Excel output remains identical.
+   ========================================================= */
+@media screen and (min-width:651px) and (max-width:1100px) {
+  body {
+    overflow-x:hidden;
+  }
+
+  .app-header {
+    min-height:104px !important;
+    padding:12px 16px !important;
+    align-items:center !important;
+  }
+
+  .brand-wrap {
+    gap:11px;
+    min-width:0;
+  }
+
+  .logos {
+    gap:6px;
+    flex:0 0 auto;
+  }
+
+  .logo-orb {
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    padding:5px;
+  }
+
+  .eyebrow {
+    font-size:9px !important;
+    letter-spacing:1px !important;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:62vw;
+  }
+
+  .brand-wrap h1 {
+    font-size:18px !important;
+    line-height:1.15;
+    margin:4px 0 !important;
+  }
+
+  .brand-wrap p {
+    font-size:9px !important;
+  }
+
+  main {
+    width:100%;
+    max-width:none;
+    margin:10px auto;
+    padding:0 10px;
+  }
+
+  .upload-panel {
+    grid-template-columns:1fr 1fr !important;
+    gap:10px;
+    padding:10px;
+  }
+
+  .upload-panel .actions {
+    grid-column:1 / -1;
+    grid-template-columns:1fr 1fr !important;
+    gap:8px;
+  }
+
+  .upload-panel .actions label {
+    grid-column:1 / -1;
+  }
+
+  .dashboard {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px;
+    padding:9px;
+  }
+
+  .kpi {
+    min-height:86px;
+    padding:12px;
+  }
+
+  .kpi span {
+    font-size:9px;
+  }
+
+  .kpi b {
+    font-size:23px;
+  }
+
+  .tabs {
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:thin;
+    padding:6px;
+    gap:6px;
+  }
+
+  .tabs button {
+    flex:0 0 auto;
+    min-height:42px;
+    padding:10px 13px;
+    white-space:nowrap;
+    touch-action:manipulation;
+  }
+
+  .report-shell {
+    padding:9px;
+    overflow-x:auto;
+    overflow-y:visible;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .report-toolbar {
+    position:sticky;
+    left:0;
+    z-index:5;
+    flex-wrap:wrap;
+  }
+
+  .report-toolbar button {
+    min-height:42px;
+    padding:10px 13px;
+    font-size:11px;
+  }
+
+  /* Keep complex report tables readable with horizontal scrolling. */
+  .report-canvas {
+    min-width:1000px;
+  }
+
+  /* Responsive report KPI cards for on-screen viewing only. */
+  .report-kpis,
+  .report-kpis.six {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px;
+  }
+
+  .report-kpi {
+    min-height:105px;
+    padding:12px 12px 12px 50px;
+  }
+
+  .report-kpi span {
+    font-size:10px;
+  }
+
+  .report-kpi b {
+    font-size:19px;
+  }
+
+  .report-kpi.top3-kpi {
+    min-height:170px;
+  }
+
+  .report-kpis.six .report-kpi.top3-kpi,
+  .report-kpis.six > .report-kpi:nth-child(-n+3) {
+    min-height:170px;
+  }
+
+  .report-kpi.top3-kpi b em {
+    font-size:10px;
+    margin-bottom:7px;
+  }
+
+  .sb-report-kpis {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .sb-report-kpis .report-kpi {
+    min-height:105px;
+  }
+
+  .report-title {
+    min-height:50px;
+  }
+
+  footer {
+    min-height:64px;
+  }
+}
+
+@media screen and (max-width:650px) {
+  html, body {
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+  .app-header {
+    min-height:78px !important;
+    padding:10px 12px !important;
+  }
+
+  .brand-wrap {
+    width:100%;
+    min-width:0;
+  }
+
+  .brand-wrap h1 {
+    font-size:14px !important;
+    line-height:1.15;
+  }
+
+  .eyebrow {
+    font-size:8px !important;
+    letter-spacing:.7px !important;
+    white-space:normal;
+    line-height:1.2;
+  }
+
+  .brand-wrap p {
+    display:none;
+  }
+
+  main {
+    width:100%;
+    padding:0 7px;
+    margin:8px auto;
+  }
+
+  .upload-panel {
+    grid-template-columns:1fr !important;
+    padding:8px;
+  }
+
+  .upload-panel .actions {
+    grid-column:auto;
+    grid-template-columns:1fr !important;
+  }
+
+  .actions label,
+  .actions button {
+    min-height:42px;
+  }
+
+  .dashboard {
+    grid-template-columns:1fr !important;
+    gap:8px;
+    padding:8px;
+  }
+
+  .kpi {
+    min-height:88px;
+  }
+
+  .tabs {
+    margin-bottom:8px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .tabs button {
+    min-height:44px;
+    flex:0 0 auto;
+  }
+
+  .report-shell {
+    padding:7px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .report-toolbar {
+    justify-content:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .report-toolbar button {
+    min-height:44px;
+    font-size:11px;
+  }
+
+  /* The report itself remains wide for readability; users can swipe
+     horizontally. This is screen-only and never changes export dimensions. */
+  .report-canvas {
+    min-width:1000px;
+  }
+
+  .report-kpis,
+  .report-kpis.six,
+  .sb-report-kpis {
+    grid-template-columns:1fr !important;
+  }
+
+  .report-kpi,
+  .report-kpi.top3-kpi,
+  .report-kpis.six > .report-kpi:nth-child(-n+3) {
+    min-height:118px;
+    height:auto;
+  }
+
+  .report-kpi.top3-kpi {
+    min-height:190px;
+  }
+
+  .report-title {
+    min-height:48px;
+    padding:8px 10px;
+  }
+
+  .title-main {
+    font-size:16px;
+  }
+
+  footer {
+    min-height:62px;
+  }
+}
