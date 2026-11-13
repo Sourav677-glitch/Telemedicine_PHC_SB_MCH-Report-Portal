@@ -3729,3 +3729,107 @@ footer:after {
     min-height:62px;
   }
 }
+
+
+/* Updated PHC/MCH KPI layout: uniform card sizing after KPI revisions */
+.report-canvas.report-phc .report-kpis,
+.report-canvas.report-mch .report-kpis {
+  align-items:stretch;
+}
+.report-canvas.report-phc .report-kpi,
+.report-canvas.report-mch .report-kpi {
+  height:100%;
+  box-sizing:border-box;
+}
+.report-canvas.report-mch .report-kpis {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+@media(max-width:650px) {
+  .report-canvas.report-phc .report-kpis,
+  .report-canvas.report-mch .report-kpis {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+
+/* =========================================================
+   MCH EXPORT — COMPACT KPI SECTION (PNG/PDF only)
+   KPI cards are shortened so the main report table below gets
+   more of the image; the two % cards use much larger numbers.
+   ========================================================= */
+.report-canvas.export-capture.export-large.report-mch .report-kpis {
+  display:grid !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  grid-template-rows:auto auto !important;
+  gap:8px !important;
+  margin:6px 0 8px !important;
+  align-items:stretch !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpis > .report-kpi:nth-child(-n+3) {
+  grid-column:span 2 !important;
+  height:112px !important;
+  min-height:112px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpis > .report-kpi:nth-child(n+4) {
+  grid-column:span 3 !important;
+  height:112px !important;
+  min-height:112px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi {
+  padding:10px 16px 8px 78px !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi-icon {
+  font-size:28px !important;
+  width:46px !important;
+  height:46px !important;
+  left:16px !important;
+  top:14px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi span {
+  font-size:20px !important;
+  line-height:1.05 !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi b {
+  font-size:28px !important;
+  line-height:1.05 !important;
+  margin-top:4px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi:nth-child(1) b,
+.report-canvas.export-capture.export-large.report-mch .report-kpi:nth-child(2) b {
+  font-size:23px !important;
+}
+/* Total consultations / total active doctors: bigger numbers and % */
+.report-canvas.export-capture.export-large.report-mch .report-kpis > .report-kpi:nth-child(n+4) span {
+  font-size:24px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpis > .report-kpi:nth-child(n+4) b {
+  font-size:44px !important;
+  line-height:1.05 !important;
+  margin-top:4px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpis > .report-kpi:nth-child(n+4) b small {
+  font-size:44px !important;
+  font-weight:950 !important;
+  color:#c2410c !important;
+  margin-left:8px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .report-kpi:nth-child(5) b small {
+  color:#c2410c !important;
+}
+/* Slightly larger report table text now that space is reclaimed */
+.report-canvas.export-capture.export-large.report-mch .mch-table th {
+  font-size:28px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .mch-table td,
+.report-canvas.export-capture.export-large.report-mch .mch-table td:nth-child(2),
+.report-canvas.export-capture.export-large.report-mch .mch-table td:nth-child(3) {
+  font-size:26px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .mch-table .total-row td {
+  font-size:29px !important;
+}
+.report-canvas.export-capture.export-large.report-mch .mch-table .merged-remark {
+  font-size:22px !important;
+}

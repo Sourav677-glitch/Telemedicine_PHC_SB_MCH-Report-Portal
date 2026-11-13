@@ -1,5 +1,5 @@
 TELEMEDICINE DAILY PERFORMANCE & REPORTING PORTAL
-VERSION: v6.4 — Clean Code + State Report Readability Update
+VERSION: v6.7 — State Report Excel NOTE and footnote rows
 
 SOURCE STRUCTURE
 - index.html : Portal structure and layout

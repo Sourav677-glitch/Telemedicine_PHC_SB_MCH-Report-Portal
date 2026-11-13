@@ -206,30 +206,32 @@ function uniqueCount(rows,pred=r=>true){
   return uniqueFacilities(rows).filter(pred).length
 }
 function summaryRows(phc){
-  const sc=referred.filter(x=>U(x.facility).startsWith('SC')),up=referred.filter(x=>U(x.facility).startsWith('UPHC')),uph=received.filter(x=>U(x.facility).startsWith('HUB UPHC')),aamh=received.filter(x=>!U(x.facility).startsWith('HUB UPHC'));
+  const sc=referred.filter(x=>U(x.facility).startsWith('SC')),up=referred.filter(x=>U(x.facility).startsWith('UPHC')),uph=received.filter(x=>U(x.facility).startsWith('HUB UPHC')),aamh=received.filter(x=>U(x.facility).startsWith('HUB')&&!U(x.facility).startsWith('HUB UPHC')&&U(x.district)!=='KOLKATA');
   const scU=uniqueFacilities(sc),upU=uniqueFacilities(up),phcU=uniqueFacilities(referred.filter(x=>U(x.facility).startsWith('PHC')));
   const a={
-    sl:1,name:'AAM',operational:9808,logged:scU.filter(z=>z.completed>0).length,active:scU.filter(z=>z.completed>=10).length,expected:2118,doctors:[...new Set(aamh.filter(x=>x.completed>0).map(x=>cleanUser(x.user)))].length,spoke:scU.reduce((s,z)=>s+z.completed,0),hub:aamh.reduce((s,x)=>s+x.completed,0)
+    sl:1,name:'AAM',operational:9808,logged:scU.filter(z=>z.completed>0).length,active:scU.filter(z=>z.completed>=10).length,expected:2118,doctors:aamh.filter(x=>x.completed>0).length,spoke:scU.reduce((s,z)=>s+z.completed,0),hub:aamh.reduce((s,x)=>s+x.completed,0)
   };
   const p={
     sl:2,name:'AAM-PHC',operational:781,logged:phcU.filter(z=>z.completed>0).length,active:phcU.filter(z=>z.completed>=10).length,expected:null,doctors:null,spoke:phc.reduce((s,x)=>s+x.consult,0),hub:null
   };
   const u={
-    sl:3,name:'AAM-UPHC',operational:456,logged:upU.filter(z=>z.completed>0).length,active:upU.filter(z=>z.completed>=10).length,expected:91,doctors:[...new Set(uph.filter(x=>x.completed>0).map(x=>cleanUser(x.user)))].length,spoke:upU.reduce((s,z)=>s+z.completed,0),hub:uph.reduce((s,x)=>s+x.completed,0)
+    sl:3,name:'AAM-UPHC',operational:456,logged:upU.filter(z=>z.completed>0).length,active:upU.filter(z=>z.completed>=10).length,expected:91,doctors:uph.filter(x=>x.completed>0).length,spoke:upU.reduce((s,z)=>s+z.completed,0),hub:uph.reduce((s,x)=>s+x.completed,0)
   };
   [a,p,u].forEach(x=>{
     x.activePct=pct(x.active,x.operational); x.avail=x.expected?pct(x.doctors,x.expected):null; x.perSpoke=Math.round(pct(x.spoke,x.operational)); x.perDoctor=x.doctors?Math.round(pct(x.hub,x.doctors)):null
   });
   const w={
-    operational:a.operational+p.operational+u.operational,logged:a.logged+p.logged+u.logged,active:a.active+p.active+u.active,expected:a.expected+u.expected,doctors:a.doctors+u.doctors,spoke:a.spoke+p.spoke+u.spoke,hub:a.hub+u.hub
+    operational:a.operational+p.operational+u.operational,logged:a.logged+p.logged+u.logged,active:a.active+p.active+u.active,expected:a.expected+u.expected,doctors:a.doctors+u.doctors,spoke:referred.reduce((sum,x)=>sum+(Number(x.completed)||0),0),hub:received.reduce((sum,x)=>sum+(Number(x.completed)||0),0)
   };
   w.activePct=pct(w.active,w.operational);
   w.avail=pct(w.doctors,w.expected);
   w.perSpoke=Math.round(pct(w.spoke,w.operational));
   w.perDoctor=Math.round(pct(w.hub,w.doctors));
+  // Non-distinct count: a doctor who did duty in more than one HUB is counted once per HUB entry.
+  const kolkataDoctors=received.filter(x=>U(x.district)==='KOLKATA'&&U(x.facility)!=='HUB UPHC KOLKATA'&&String(x.user||'').trim()&&x.completed>0&&cleanUser(x.user)).length;
   return {
     rows:[a,p,u],wb:w,notes:{
-      mchOther:aamh.filter(x=>U(x.district)!=='KOLKATA').reduce((s,x)=>s+x.completed,0),kolkataHub:aamh.filter(x=>U(x.district)==='KOLKATA').reduce((s,x)=>s+x.completed,0),others:referred.filter(x=>!U(x.facility).startsWith('SC')&&!U(x.facility).startsWith('PHC')&&!U(x.facility).startsWith('UPHC')).reduce((s,x)=>s+x.completed,0)
+      mchOther:w.spoke-(a.hub+u.hub),kolkataHub:kolkataDoctors,others:referred.filter(x=>!U(x.facility).startsWith('SC')&&!U(x.facility).startsWith('PHC')&&!U(x.facility).startsWith('UPHC')).reduce((s,x)=>s+x.completed,0)
     }
   }
 }
@@ -288,7 +290,7 @@ function dateText(){
   }):'—'
 }
 function zoneClass(rank){
-  return rank<=7?'row-good':rank<=14?'row-mid':'row-bad'
+  return rank<=5?'row-good':rank<=12?'row-mid':'row-bad'
 }
 // MCH colour coding: 0% deficit = green; remaining rows through rank 10 = orange; rank >10 = pink.
 function mchZoneClass(x){
@@ -337,9 +339,8 @@ function renderPhc(){
       best=bestDistrict
           ? `${bestDistrict.district}<em>${fmt(bestDistrict.consult)} Consultations</em>`
           : '—',
-      top=topPhcUsers();
-  const topHtml=top.map(x=>`${x.user}<em>${/^PHC/i.test(x.facility)?x.facility:'PHC '+x.facility} • ${fmt(x.completed)}</em>`).join('<br>');
-  return shell('TELEMEDICINE :: DAILY AAM-PHC PERFORMANCE REPORT',reportKpis([['📈','TOTAL CONSULTATIONS',fmt(co),'saffron'],['✓','ACTIVE AAM-PHCS',`${fmt(ac)} <small>(${Math.round(ac/op*100)}%)</small>`,'green'],['🏆','TOP 3 PHC SPOKE USERS',topHtml,''],['📍','Best District with Highest Consultation Today',best,'green']])+`<table class="phc-table"><thead><tr><th rowspan="2" class="blue">Sl. No.</th><th rowspan="2" class="blue">DISTRICTS</th><th colspan="4" class="orange">ACTIVE SPOKES</th><th colspan="3" class="darkgreen">PERFORMANCE ANALYSIS<br>AAM-PHCs Performance</th><th rowspan="2" class="blue">Overall Rank</th></tr><tr><th class="blue">No of Operational<br>AAM-PHCs [A]</th><th class="blue">**No of active<br>AAM-PHCs [Z]</th><th class="blue">% Active AAM-PHCs<br>[Z/A×100]</th><th class="blue">Rank</th><th class="blue">AAM-PHCs Total<br>Consultations [E]</th><th class="blue">Consultations per<br>Operational AAM-PHC</th><th class="blue">Rank</th></tr></thead><tbody>${a.map((x,i)=>`<tr class="${zoneClass(x.overall)}"><td>${
+      below10=a.filter(x=>Number(x.avg)<10).length;
+  return shell('TELEMEDICINE :: DAILY AAM-PHC PERFORMANCE REPORT',reportKpis([['📈','TOTAL CONSULTATIONS',fmt(co),'saffron'],['✓','ACTIVE AAM-PHCS',`${fmt(ac)} <small>(${Math.round(ac/op*100)}%)</small>`,'green'],['⚠️','CONSULTATIONS PER AAM-PHC < 10',`${below10} / 23 Districts`,'saffron'],['📍','Best District with Highest Consultation Today',best,'green']])+`<table class="phc-table"><thead><tr><th rowspan="2" class="blue">Sl. No.</th><th rowspan="2" class="blue">DISTRICTS</th><th colspan="4" class="orange">ACTIVE SPOKES</th><th colspan="3" class="darkgreen">PERFORMANCE ANALYSIS<br>AAM-PHCs Performance</th><th rowspan="2" class="blue">Overall Rank</th></tr><tr><th class="blue">No of Operational<br>AAM-PHCs [A]</th><th class="blue">**No of active<br>AAM-PHCs [Z]</th><th class="blue">% Active AAM-PHCs<br>[Z/A×100]</th><th class="blue">Rank</th><th class="blue">AAM-PHCs Total<br>Consultations [E]</th><th class="blue">Consultations per<br>Operational AAM-PHC</th><th class="blue">Rank</th></tr></thead><tbody>${a.map((x,i)=>`<tr class="${zoneClass(x.overall)}"><td>${
     i+1
   }
   </td><td class="district">${
@@ -394,7 +395,6 @@ function renderSb(){
 }
 function renderMch(){
   const a=reports.mch,ex=a.reduce((s,x)=>s+x.expected,0),doc=a.reduce((s,x)=>s+x.doctors,0),act=a.reduce((s,x)=>s+x.actual,0),contrib=a.filter(x=>x.actual>0).length;
-  const topDocs=mchTopDoctors().map(x=>`${x.user}<em>${fmt(x.completed)}</em>`).join('<br>');
   const mostDoc=[...a].sort((x,y)=>y.doctors-x.doctors)[0]||{
   },mostCon=[...a].sort((x,y)=>y.actual-x.actual)[0]||{
   };
@@ -406,13 +406,13 @@ function renderMch(){
     }
     </td>`}</tr>`
   });
-  return shell('TELEMEDICINE : 27 MCH DAILY PERFORMANCE REPORT',reportKpis([['👨‍⚕️','TOP 3 MCH DOCTORS',topDocs,'green'],['👥','BEST MCH TODAY WITH MOST ACTIVE DOCTORS',`${mostDoc.hospital||'—'} • ${mostDoc.doctors||0}`,''],['🏆','BEST MCH TODAY WITH HIGHEST CONSULTATIONS',`${mostCon.hospital||'—'} • ${fmt(mostCon.actual||0)}`,'saffron'],['🏥','CONTRIBUTING MCH',`${contrib}/27`,'green'],['📊','TOTAL CONSULTATIONS FROM MCH TODAY',fmt(act),''],['🩺','TOTAL ACTIVE DOCTORS FROM MCH TODAY',fmt(doc),'saffron']])+`<table class="mch-table"><thead><tr class="blue2"><th>Sl No.</th><th>District</th><th>Hospital Name</th><th>*Expected Teleconsultations</th><th>Number of Doctors</th><th>Actual Teleconsultations</th><th>Deficit / Surplus Consultations</th><th>Rank</th></tr></thead><tbody>${rows}<tr class="total-row"><td colspan="3">Total Consultations</td><td>${fmt(ex)}</td><td>${doc}</td><td>${fmt(act)}</td><td>${Math.max(0,Math.round((ex-act)/ex*100))}%</td><td></td></tr></tbody></table>`)
+  return shell('TELEMEDICINE : 27 MCH DAILY PERFORMANCE REPORT',reportKpis([['👥','BEST MCH TODAY WITH MOST ACTIVE DOCTORS',`${mostDoc.hospital||'—'} • ${mostDoc.doctors||0}`,''],['🏆','BEST MCH TODAY WITH HIGHEST CONSULTATIONS',`${mostCon.hospital||'—'} • ${fmt(mostCon.actual||0)}`,'saffron'],['🏥','CONTRIBUTING MCH',`${contrib}/27`,'green'],['📊','TOTAL CONSULTATIONS FROM MCH TODAY',`${fmt(act)} / 23,700 <small>(${Math.round(act/23700*100)}%)</small>`,''],['🩺','TOTAL ACTIVE DOCTORS FROM MCH TODAY',`${fmt(doc)} / 237 <small>(${Math.round(doc/237*100)}%)</small>`,'saffron']])+`<table class="mch-table"><thead><tr class="blue2"><th>Sl No.</th><th>District</th><th>Hospital Name</th><th>*Expected Teleconsultations</th><th>Number of Doctors</th><th>Actual Teleconsultations</th><th>Deficit / Surplus Consultations</th><th>Rank</th></tr></thead><tbody>${rows}<tr class="total-row"><td colspan="3">Total Consultations</td><td>${fmt(ex)}</td><td>${doc}</td><td>${fmt(act)}</td><td>${Math.max(0,Math.round((ex-act)/ex*100))}%</td><td></td></tr></tbody></table>`)
 }
 function renderSummary(){
-  const s=reports.summary,w=s.wb,row=x=>`<tr><td>${x.sl}</td><td class="facility">${x.name}</td><td>${fmt(x.operational)}</td><td>${fmt(x.logged)}</td><td>${fmt(x.active)}</td><td>${Math.round(x.activePct*100)}%</td><td>${x.expected??''}</td><td>${x.doctors??''}</td><td>${x.avail!=null?Math.round(x.avail*100)+'%':''}</td><td>${fmt(x.spoke)}</td><td>${fmt(x.perSpoke)}</td><td>${x.hub!=null?fmt(x.hub):''}</td><td>${x.perDoctor!=null?fmt(x.perDoctor):''}</td></tr>`;
-  return shell('TELEMEDICINE :: STATE REPORT',`<table class="summary-table"><thead><tr><th rowspan="2" class="blue">Sl. No.</th><th rowspan="2" class="blue">Health Facilities</th><th colspan="4" class="orange">ACTIVE SPOKES</th><th colspan="3" class="blue">DOCTORS AVAILABILITY</th><th colspan="4" class="darkgreen">PERFORMANCE ANALYSIS</th></tr><tr><th class="blue">No of Operational<br>Spokes [A]</th><th class="blue">Total No of<br>Spokes Logged in [B]</th><th class="blue">Active Spokes<br>(>=10) [C]</th><th class="blue">% Active Spoke<br>[C/A×100]</th><th class="blue">Expected Doctors<br>[C]</th><th class="blue">Active Doctors<br>[D]</th><th class="blue">% Availability<br>[D/C×100]</th><th class="blue">Spoke Total<br>Consultations [E]</th><th class="blue">No of consultations per<br>Operational Spoke</th><th class="blue">* HUB Total<br>Consultations [F]</th><th class="blue">No of consultations<br>per Active Doctor</th></tr></thead><tbody>${s.rows.map(row).join('')}<tr class="total-row"><td colspan="2">WEST BENGAL</td><td>${fmt(w.operational)}</td><td>${fmt(w.logged)}</td><td>${fmt(w.active)}</td><td>${Math.round(w.activePct*100)}%</td><td>${Math.round(w.expected)}</td><td>${fmt(w.doctors)}</td><td>${Math.round(w.avail*100)}%</td><td>${fmt(w.spoke)}</td><td>${fmt(w.perSpoke)}</td><td>${fmt(w.hub)}</td><td>${fmt(w.perDoctor)}</td></tr><tr class="note"><td>NOTE</td><td>* Hub Performance :</td><td colspan="2">${fmt(s.notes.mchOther)}</td><td colspan="5">Number of consultation done by MCH, State Telemedicine Center and Super Specialist Center</td><td colspan="2">${fmt(s.notes.kolkataHub)}</td><td>Others Consultation (Correctional Home, Cardio, Neuro etc.)</td><td>${fmt(s.notes.others)}</td></tr></tbody></table><div class="footnote">** Active Spokes : Completed at least ten consultation Vide Memo No. HFW/NCD/462/2021 dated 8th October 2021</div>`)
+  const s=reports.summary,w=s.wb,row=x=>`<tr><td>${x.sl}</td><td class="facility">${x.name}</td><td>${fmt(x.operational)}</td><td>${fmt(x.logged)}</td><td>${fmt(x.active)}</td><td>${Math.round(x.activePct*100)}%</td><td>${x.expected??'---'}</td><td>${x.doctors??'---'}</td><td>${x.avail!=null?Math.round(x.avail*100)+'%':'---'}</td><td>${fmt(x.spoke)}</td><td>${fmt(x.perSpoke)}</td><td>${x.hub!=null?fmt(x.hub):'---'}</td><td>${x.perDoctor!=null?fmt(x.perDoctor):'---'}</td></tr>`;
+  return shell('TELEMEDICINE :: STATE REPORT',`<table class="summary-table"><thead><tr><th rowspan="2" class="blue">Sl. No.</th><th rowspan="2" class="blue">Health Facilities</th><th colspan="4" class="orange">ACTIVE SPOKES</th><th colspan="3" class="blue">DOCTORS AVAILABILITY</th><th colspan="4" class="darkgreen">PERFORMANCE ANALYSIS</th></tr><tr><th class="blue">No of Operational<br>Spokes [A]</th><th class="blue">Total No of<br>Spokes Logged in [B]</th><th class="blue">Active Spokes<br>(>=10) [C]</th><th class="blue">% Active Spoke<br>[C/A×100]</th><th class="blue">Expected Doctors<br>[C]</th><th class="blue">Active Doctors<br>[D]</th><th class="blue">% Availability<br>[D/C×100]</th><th class="blue">Spoke Total<br>Consultations [E]</th><th class="blue">No of consultations per<br>Operational Spoke</th><th class="blue">* HUB Total<br>Consultations [F]</th><th class="blue">No of consultations<br>per Active Doctor</th></tr></thead><tbody>${s.rows.map(row).join('')}<tr class="total-row"><td colspan="2">WEST BENGAL</td><td>${fmt(w.operational)}</td><td>${fmt(w.logged)}</td><td>${fmt(w.active)}</td><td>${Math.round(w.activePct*100)}%</td><td>${Math.round(w.expected)}</td><td>${fmt(w.doctors)}</td><td>${Math.round(w.avail*100)}%</td><td>${fmt(w.spoke)}</td><td>${fmt(w.perSpoke)}</td><td>${fmt(w.hub)}</td><td>${fmt(w.perDoctor)}</td></tr><tr class="note"><td>NOTE</td><td colspan="1">* Hub Performance :</td><td>${fmt(s.notes.mchOther)}</td><td colspan="4">Number of consultation done by MCH, State Telemedicine Center and Super Specialist Center</td><td colspan="2">Number of Active Doctor other than District HUB and AAM-UPHCs</td><td>${fmt(s.notes.kolkataHub)}</td><td>Others Consultation(Correctional Home, Cardio, Neuro etc.)</td><td>${fmt(s.notes.others)}</td></tr></tbody></table><div class="footnote">** Active Spokes : Completed at least ten consultation Vide Memo No. HFW/NCD/462/2021 dated 8th October 2021</div>`)
 }
-async function buildExportCanvas(){
+async function buildExportCanvas(opts){
   const source=$('reportCanvas');
   if(!source) throw new Error('Report section not found.');
 
@@ -453,9 +453,14 @@ async function buildExportCanvas(){
   const height=Math.ceil(clone.scrollHeight);
   if(!width || !height) throw new Error('The complete report is not available for export.');
 
+  const targetLongSide=(opts&&opts.targetLongSide)||3600;
+  const maxArea=(opts&&opts.maxArea)||90000000;
+  let renderScale=targetLongSide/Math.max(width,height);
+  renderScale=Math.min(renderScale,Math.sqrt(maxArea/(width*height)));
+  renderScale=Math.max(2,Math.min(renderScale,8));
   try{
     return await html2canvas(clone,{
-      scale:2.5,
+      scale:renderScale,
       useCORS:true,
       allowTaint:false,
       backgroundColor:'#ffffff',
@@ -479,7 +484,7 @@ async function exportCurrentPNG(){
   const btn=document.querySelector('.report-toolbar .png'),old=btn.textContent;
   btn.textContent='⏳ PREPARING HD...';
   try{
-    const canvas=await buildExportCanvas();
+    const canvas=await buildExportCanvas({targetLongSide:9000,maxArea:90000000});
     const a=document.createElement('a');
     a.download=`${active.toUpperCase()}_Report_${$('reportDate').value}_HD.png`;
     a.href=canvas.toDataURL('image/png');
@@ -500,32 +505,24 @@ async function exportCurrentPDF(){
   const btn=document.querySelector('.report-toolbar .pdf'),old=btn.textContent;
   btn.textContent='⏳ PREPARING HD PDF...';
   try{
-    const canvas=await buildExportCanvas();
+    const canvas=await buildExportCanvas({targetLongSide:6000,maxArea:60000000});
     const {jsPDF}=window.jspdf;
+
+    // Custom page size = report size (297 mm long side, zero margin), so the
+    // PDF has no extra white space and the report fills the whole page.
+    const ratio=canvas.width/canvas.height;
+    const longSide=297;
+    const pageW=ratio>=1?longSide:longSide*ratio;
+    const pageH=ratio>=1?longSide/ratio:longSide;
     const pdf=new jsPDF({
-      orientation:'landscape',
+      orientation:pageW>=pageH?'landscape':'portrait',
       unit:'mm',
-      format:'a3',
+      format:[pageW,pageH],
       compress:true,
       putOnlyUsedFonts:true
     });
-
-    // Same export principle as the AAM-HWC dashboard:
-    // the complete dashboard is rendered first, then fitted as one
-    // image on a single A3 landscape page. No table row slicing and no artificial margins.
-    const pageW=420,pageH=297,margin=0;
-    const usableW=pageW,usableH=pageH;
-    const ratio=canvas.width/canvas.height;
-    let imgW=usableW;
-    let imgH=imgW/ratio;
-    if(imgH>usableH){
-      imgH=usableH;
-      imgW=imgH*ratio;
-    }
-    const x=(pageW-imgW)/2;
-    const y=(pageH-imgH)/2;
-    const image=canvas.toDataURL('image/jpeg',0.985);
-    pdf.addImage(image,'JPEG',x,y,imgW,imgH,undefined,'FAST');
+    const image=canvas.toDataURL('image/jpeg',0.95);
+    pdf.addImage(image,'JPEG',0,0,pageW,pageH,undefined,'FAST');
     pdf.save(`${active.toUpperCase()}_Report_${$('reportDate').value}_HD.pdf`);
   }
   catch(e){
@@ -671,7 +668,7 @@ $('exportBtn').onclick=()=>{
   for(let r=4; r<=mA.length; r++)if(ws['G'+r])ws['G'+r].z='0%';
   XLSX.utils.book_append_sheet(wb,ws,'Mch_Date');
   const s=reports.summary,w=s.wb;
-  let st=[['TELEMEDICINE :: STATE REPORT','','','','','','','','','','','',''],['REPORT FOR',d,'','','','','','','','','','',''],['Sl. No.','Health Facilities','Operational [A]','Logged in [B]','Active (>=10) [C]','% Active','Expected Doctors','Active Doctors','% Availability','Spoke Total [E]','Per Operational Spoke','Hub Total [F]','Per Active Doctor'],...s.rows.map(x=>[x.sl,x.name,x.operational,x.logged,x.active,x.activePct,x.expected,x.doctors,x.avail,x.spoke,x.perSpoke,x.hub,x.perDoctor]),['WEST BENGAL','',w.operational,w.logged,w.active,w.activePct,Math.round(w.expected),w.doctors,w.avail,w.spoke,w.perSpoke,w.hub,w.perDoctor]];
+  let st=[['TELEMEDICINE :: STATE REPORT','','','','','','','','','','','',''],['REPORT FOR',d,'','','','','','','','','','',''],['Sl. No.','Health Facilities','Operational [A]','Logged in [B]','Active (>=10) [C]','% Active','Expected Doctors','Active Doctors','% Availability','Spoke Total [E]','Per Operational Spoke','Hub Total [F]','Per Active Doctor'],...s.rows.map(x=>[x.sl,x.name,x.operational,x.logged,x.active,x.activePct,x.expected??'---',x.doctors??'---',x.avail??'---',x.spoke,x.perSpoke,x.hub??'---',x.perDoctor??'---']),['WEST BENGAL','',w.operational,w.logged,w.active,w.activePct,Math.round(w.expected),w.doctors,w.avail,w.spoke,w.perSpoke,w.hub,w.perDoctor]];
   ws=makeSheet(st,[8,20,12,12,12,12,13,12,13,14,16,14,16]);
   styleSheet(ws,'A1:M1',{
     fill:'F4F4F0',bold:true,fontSize:14
@@ -683,10 +680,31 @@ $('exportBtn').onclick=()=>{
     fill:'6F91B2',bold:true,fontSize:10
   });
   ws['!merges']=[XLSX.utils.decode_range('A1:M1'),XLSX.utils.decode_range('A2:B2'),XLSX.utils.decode_range(`A${st.length}:B${st.length}`)];
+  for(let r=4; r<=st.length; r++)for(let c=0; c<13; c++){const ad=XLSX.utils.encode_cell({r:r-1,c}); if(!ws[ad])ws[ad]={t:'s',v:''};}
+  // Colour formatting identical to the web State Report: group header colours, white body rows, green total row.
+  styleSheet(ws,'A3:B3',{fill:'6F91B2',bold:true,fontSize:10});
+  styleSheet(ws,'C3:F3',{fill:'F1B000',bold:true,fontSize:10});
+  styleSheet(ws,'G3:I3',{fill:'6F91B2',bold:true,fontSize:10});
+  styleSheet(ws,'J3:M3',{fill:'078443',bold:true,fontSize:10,fontColor:'FFFFFF'});
+  styleSheet(ws,`A4:M${st.length-1}`,{fill:'FFFFFF',bold:true,fontSize:11});
+  for(let r=4; r<st.length; r++)if(ws['B'+r])setCellStyle(ws,'B'+r,'FFFFFF',true,'center',13,'111111');
   styleSheet(ws,`A${st.length}:M${st.length}`,{
     fill:'9BB293',bold:true,fontSize:12
   });
   for(let r=4; r<=st.length; r++)for(let c of ['F','I'])if(ws[c+r])ws[c+r].z='0%';
+  // NOTE row + footnote, same content/colours as the web State Report (yellow band, red text).
+  const nr=st.length+1, fr=st.length+2, n=s.notes;
+  XLSX.utils.sheet_add_aoa(ws,[
+    ['NOTE','* Hub Performance :',n.mchOther,'Number of consultation done by MCH, State Telemedicine Center and Super Specialist Center','','','','Number of Active Doctor other than District HUB and AAM-UPHCs','',n.kolkataHub,'Others Consultation(Correctional Home, Cardio, Neuro etc.)',n.others,''],
+    ['** Active Spokes : Completed at least ten consultation Vide Memo No. HFW/NCD/462/2021 dated 8th October 2021','','','','','','','','','','','','']
+  ],{origin:{r:st.length,c:0}});
+  styleSheet(ws,`A${nr}:M${nr}`,{fill:'E5D500',bold:true,fontSize:11,fontColor:'B40000'});
+  styleSheet(ws,`A${fr}:M${fr}`,{fill:'E5D500',bold:true,fontSize:12,fontColor:'BD0000'});
+  ws['!merges'].push(XLSX.utils.decode_range(`D${nr}:G${nr}`),XLSX.utils.decode_range(`H${nr}:I${nr}`),XLSX.utils.decode_range(`A${fr}:M${fr}`));
+  ['C','J','L'].forEach(c=>{if(ws[c+nr])ws[c+nr].z='#,##0';});
+  ws['!rows']=ws['!rows']||[];
+  ws['!rows'][nr-1]={hpt:62};
+  ws['!rows'][fr-1]={hpt:28};
   XLSX.utils.book_append_sheet(wb,ws,'Status_Date');
   XLSX.writeFile(wb,'DailyReport_'+$('reportDate').value.replaceAll('-','')+'.xlsx')
 };
