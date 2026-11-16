@@ -189,6 +189,9 @@ function sbRows(){
   })).sort((a,b)=>b.value-a.value||a.name.localeCompare(b.name))
 }
 function tokenMatch(user,token){
+  // STM must match the literal space-prefixed token, as in Excel * STM*.
+  // This prevents RPHGMCChestMedicine and other embedded letter sequences matching STM.
+  if(token==='STM')return /\sSTM[A-Z]*/.test(U(user));
   return cleanUser(user).includes(cleanUser(token))
 }
 function mchRows(){
