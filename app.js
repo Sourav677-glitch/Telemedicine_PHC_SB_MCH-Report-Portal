@@ -197,7 +197,7 @@ function tokenMatch(user,token){
 function mchRows(){
   const hubs=['HUB CENTRAL POOL','HUB PAEDIATRICS','HUB TUBERCULOSIS'];
   let a=MCH.map(c=>{
-    const q=received.filter(x=>hubs.includes(U(x.facility))&&tokenMatch(x.user,c.token)); const doctors=q.length; const actual=q.filter(x=>['HUB CENTRAL POOL','HUB PAEDIATRICS'].includes(U(x.facility))).reduce((s,x)=>s+x.completed,0); return {
+    const q=received.filter(x=>hubs.includes(U(x.facility))&&tokenMatch(x.user,c.token)); const doctors=q.length; const actual=q.filter(x=>['HUB CENTRAL POOL','HUB PAEDIATRICS'].includes(U(x.facility))||(c.token==='DiamondHGMCH'&&U(x.facility)==='HUB TUBERCULOSIS')).reduce((s,x)=>s+x.completed,0); return {
       ...c,doctors,actual,deficit:Math.max(0,pct(c.expected-actual,c.expected))
     }
   });
